@@ -1,5 +1,7 @@
-﻿import unittest
-from src.utils.Size import Size
+﻿import sys
+sys.path.insert(0, '../src')
+import unittest
+from utils.Size import Size
 
 class TestSize(unittest.TestCase):
 
