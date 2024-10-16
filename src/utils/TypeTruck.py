@@ -1,12 +1,10 @@
 ﻿from enum import Enum
-import TypeBox
+from TypeBox import TypeBox
 from error import TruckError
 
-listNotPosible = (
-            (TypeBox.ALIMENTAL,TypeBox.TOXIC, TypeBox.RADIOACTIVE, TypeBox.CORROSIVE,
-             TypeBox.OXIDIZING)
-            (TypeBox.FLAMMABLE, TypeBox.EXPLOSIVE, TypeBox.TOXIC, TypeBox.RADIOACTIVE, TypeBox.CORROSIVE,
-             TypeBox.OXIDIZING, TypeBox.PRESSURIZED),
+listnotposible = (
+            (TypeBox.ALIMENTAL,TypeBox.TOXIC, TypeBox.RADIOACTIVE, TypeBox.CORROSIVE,TypeBox.OXIDIZING),
+            (TypeBox.FLAMMABLE, TypeBox.EXPLOSIVE, TypeBox.TOXIC, TypeBox.RADIOACTIVE, TypeBox.CORROSIVE,TypeBox.OXIDIZING, TypeBox.PRESSURIZED),
             (TypeBox.RADIOACTIVE,TypeBox.PRESSURIZED),
             ()
         )
@@ -14,13 +12,13 @@ listNotPosible = (
 This function returns the type of truck to use.
 """
 def typeOfTruckToUse(listtypebox):
-    if not listtypebox.contains(listNotPosible[0]):
+    if not listtypebox.contains(listnotposible[0]):
         return TypeTruck.OPEN
-    elif not listtypebox.contains(listNotPosible[1]):
+    elif not listtypebox.contains(listnotposible[1]):
         return TypeTruck.REFRIGERATE
-    elif not listtypebox.contains(listNotPosible[2]):
+    elif not listtypebox.contains(listnotposible[2]):
         return TypeTruck.WATERTIGHT
-    elif not listtypebox.contains(listNotPosible[3]):
+    elif not listtypebox.contains(listnotposible[3]):
         return TypeTruck.PLATED
 
     #Impossible to determine the type of truck
