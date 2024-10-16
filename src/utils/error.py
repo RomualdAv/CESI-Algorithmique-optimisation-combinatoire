@@ -1,0 +1,2 @@
+﻿class TruckError(Exception):
+    pass
