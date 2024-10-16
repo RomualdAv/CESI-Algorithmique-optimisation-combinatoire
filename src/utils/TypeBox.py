@@ -17,7 +17,7 @@ class TypeBox(Enum):
     
     def __init__(self):
         super().__init__()
-        self.__listNotPosible = (
+        self.__listNotPossible = (
             (),
             (TypeBox.FLAMMABLE, TypeBox.EXPLOSIVE, TypeBox.TOXIC, TypeBox.RADIOACTIVE, TypeBox.CORROSIVE,
              TypeBox.OXIDIZING, TypeBox.PRESSURIZED),
@@ -43,31 +43,31 @@ class TypeBox(Enum):
     """
     def isPossibleToTransport(self, listtypebox):
         if self == TypeBox.ALIMENTAL:
-            if not listtypebox.contains(self.__listNotPosible[1]):
+            if not listtypebox.contains(self.__listNotPossible[1]):
                 return False
         elif self == TypeBox.FLAMMABLE:
-            if not listtypebox.contains(self.__listNotPosible[2]):
+            if not listtypebox.contains(self.__listNotPossible[2]):
                 return False
         elif self == TypeBox.EXPLOSIVE:
-            if not listtypebox.contains(self.__listNotPosible[3]):
+            if not listtypebox.contains(self.__listNotPossible[3]):
                 return False
         elif self == TypeBox.TOXIC:
-            if not listtypebox.contains(self.__listNotPosible[4]):
+            if not listtypebox.contains(self.__listNotPossible[4]):
                 return False
         elif self == TypeBox.RADIOACTIVE:
-            if not listtypebox.contains(self.__listNotPosible[5]):
+            if not listtypebox.contains(self.__listNotPossible[5]):
                 return False
         elif self == TypeBox.CORROSIVE:
-            if not listtypebox.contains(self.__listNotPosible[6]):
+            if not listtypebox.contains(self.__listNotPossible[6]):
                 return False
         elif self == TypeBox.OXIDIZING:
-            if not listtypebox.contains(self.__listNotPosible[7]):
+            if not listtypebox.contains(self.__listNotPossible[7]):
                 return False
         elif self == TypeBox.PRESSURIZED:
-            if not listtypebox.contains(self.__listNotPosible[8]):
+            if not listtypebox.contains(self.__listNotPossible[8]):
                 return False
         elif self == TypeBox.FRAGILE:
-            if not listtypebox.contains(self.__listNotPosible[9]):
+            if not listtypebox.contains(self.__listNotPossible[9]):
                 return False
         return True
     """
