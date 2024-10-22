@@ -24,30 +24,30 @@ class Truck:
         self.__fret = []
     
     """Get methods"""
-    def get_name(self):
+    def get_name(self)->str:
         return self.__name
     
-    def get_size(self):
+    def get_size(self)->Size:
         return self.__size
     
-    def get_type(self):
+    def get_type(self)->TypeTruck:
         return self.__type
 
     """Method that return the total weight the truck is currently transporting"""
     def getCurrentWeight(self):
         current_weight = 0
-        if self.__fret == []:
+        if not self.__fret:
             raise TruckError("Truck does not contain any fret")
         else:
-            return sum(box.size for box in self.__fret)
+            return sum(box.getSize().getVolume() for box in self.__fret)
 
     """Method that return a boolean value to know if a box size < truck capacity"""
-    def canContain(self, box:Box):
-        return box.size <= (self.__size - self.get_current_weight())
+    def canContain(self, box:Box) -> bool:
+        return box.getSize().getVolume() <= (self.__size.getVolume() - self.getCurrentWeight())
 
     """Method that return a boolean value to know if the truck is full"""
-    def isFull(self):
-        return self.__size == self.get_current_weight()
+    def isFull(self) -> bool:
+        return self.__size == self.getCurrentWeight()
     
     """Method that substracte a box from the truck"""
     def conveyBox(self, id_box:UUID):
