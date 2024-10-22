@@ -8,7 +8,7 @@ from src.utils.error import TruckError, BoxIDError
 This class represents a Truck object.
 
 Attributes:
-    name (str): Truck Name
+    name (str) : Truck Name
     size (Size): Stockage capacity
     type (TypeTruck): Truck type
     fret (Array<Box>): Boxes list that are contained
