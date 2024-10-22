@@ -1,13 +1,11 @@
 ﻿import datetime
-import sys
 import unittest
-sys.path.insert(0, '../src')
+from uuid import uuid4
 from src.utils.DeliveryWindow import DeliveryWindow
 from src.utils.Depot import Depot
-from uuid import uuid4
 from src.utils.Size import Size
 from src.utils.TypeTruck import TypeTruck
-from src.utils.TypeBox import TypeBox
+from src.utils.TypeBox import *
 from src.utils.Box import Box
 from src.utils.error import TruckError, BoxIDError
 from src.utils.Truck import Truck
