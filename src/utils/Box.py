@@ -1,8 +1,8 @@
 import uuid
 
-from src.utils.Depot import Depot
-from src.utils.Size import Size
-from src.utils.TypeBox import TypeBox
+from .Depot import Depot
+from .Size import Size
+from .TypeBox import TypeBox
 
 """
 This class represents a Box object.

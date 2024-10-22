@@ -1,6 +1,6 @@
 ﻿from enum import Enum
-from TypeBox import TypeBox
-from error import TruckError
+from .TypeBox import TypeBox
+from .error import TruckError
 
 listnotposible = (
             (TypeBox.ALIMENTAL,TypeBox.TOXIC, TypeBox.RADIOACTIVE, TypeBox.CORROSIVE,TypeBox.OXIDIZING),

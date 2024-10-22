@@ -3,7 +3,7 @@ import datetime
 """
 Method to copy the datetime object
 """
-def copyDatetime(date):
+def copyDatetime(date: datetime)->datetime:
     return datetime.datetime(date.year, date.month, date.day, date.hour, date.minute, date.second)
 
 """

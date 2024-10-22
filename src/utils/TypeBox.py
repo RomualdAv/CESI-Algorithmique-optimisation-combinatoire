@@ -14,60 +14,37 @@ class TypeBox(Enum):
     OXIDIZING = 7
     PRESSURIZED = 8
     FRAGILE = 9
-    
-    def __init__(self):
-        super().__init__()
-        self.__listNotPossible = (
-            (),
-            (TypeBox.FLAMMABLE, TypeBox.EXPLOSIVE, TypeBox.TOXIC, TypeBox.RADIOACTIVE, TypeBox.CORROSIVE,
-             TypeBox.OXIDIZING, TypeBox.PRESSURIZED),
-            (TypeBox.ALIMENTAL, TypeBox.TOXIC, TypeBox.RADIOACTIVE, TypeBox.CORROSIVE, TypeBox.OXIDIZING,
-             TypeBox.PRESSURIZED, TypeBox.FRAGILE),
-            (TypeBox.ALIMENTAL, TypeBox.TOXIC, TypeBox.RADIOACTIVE, TypeBox.CORROSIVE, TypeBox.OXIDIZING,
-             TypeBox.PRESSURIZED, TypeBox.FRAGILE),
-            (TypeBox.ALIMENTAL, TypeBox.FLAMMABLE, TypeBox.EXPLOSIVE, TypeBox.PRESSURIZED, TypeBox.FRAGILE),
-            (TypeBox.ALIMENTAL, TypeBox.FLAMMABLE, TypeBox.EXPLOSIVE, TypeBox.CORROSIVE, TypeBox.OXIDIZING,
-             TypeBox.PRESSURIZED, TypeBox.FRAGILE),
-            (TypeBox.ALIMENTAL, TypeBox.FLAMMABLE, TypeBox.EXPLOSIVE, TypeBox.RADIOACTIVE, TypeBox.OXIDIZING,
-             TypeBox.PRESSURIZED, TypeBox.FRAGILE),
-            (TypeBox.ALIMENTAL, TypeBox.FLAMMABLE, TypeBox.EXPLOSIVE, TypeBox.RADIOACTIVE, TypeBox.CORROSIVE,
-             TypeBox.PRESSURIZED, TypeBox.FRAGILE),
-            (TypeBox.ALIMENTAL, TypeBox.FLAMMABLE, TypeBox.EXPLOSIVE, TypeBox.RADIOACTIVE, TypeBox.CORROSIVE,
-             TypeBox.OXIDIZING, TypeBox.FRAGILE),
-            (TypeBox.FLAMMABLE, TypeBox.EXPLOSIVE, TypeBox.TOXIC, TypeBox.RADIOACTIVE, TypeBox.CORROSIVE,
-             TypeBox.OXIDIZING, TypeBox.PRESSURIZED)
-        )
 
     """
     The method isPossibleToTransport checks if the box can be transported with the other boxes.
     """
     def isPossibleToTransport(self, listtypebox):
         if self == TypeBox.ALIMENTAL:
-            if not listtypebox.contains(self.__listNotPossible[1]):
+            if not listtypebox.contains(listNotPossible[1]):
                 return False
         elif self == TypeBox.FLAMMABLE:
-            if not listtypebox.contains(self.__listNotPossible[2]):
+            if not listtypebox.contains(listNotPossible[2]):
                 return False
         elif self == TypeBox.EXPLOSIVE:
-            if not listtypebox.contains(self.__listNotPossible[3]):
+            if not listtypebox.contains(listNotPossible[3]):
                 return False
         elif self == TypeBox.TOXIC:
-            if not listtypebox.contains(self.__listNotPossible[4]):
+            if not listtypebox.contains(listNotPossible[4]):
                 return False
         elif self == TypeBox.RADIOACTIVE:
-            if not listtypebox.contains(self.__listNotPossible[5]):
+            if not listtypebox.contains(listNotPossible[5]):
                 return False
         elif self == TypeBox.CORROSIVE:
-            if not listtypebox.contains(self.__listNotPossible[6]):
+            if not listtypebox.contains(listNotPossible[6]):
                 return False
         elif self == TypeBox.OXIDIZING:
-            if not listtypebox.contains(self.__listNotPossible[7]):
+            if not listtypebox.contains(listNotPossible[7]):
                 return False
         elif self == TypeBox.PRESSURIZED:
-            if not listtypebox.contains(self.__listNotPossible[8]):
+            if not listtypebox.contains(listNotPossible[8]):
                 return False
         elif self == TypeBox.FRAGILE:
-            if not listtypebox.contains(self.__listNotPossible[9]):
+            if not listtypebox.contains(listNotPossible[9]):
                 return False
         return True
     """
@@ -75,3 +52,24 @@ class TypeBox(Enum):
     """
     def __str__(self):
         return self.name
+
+listNotPossible = (
+        (),
+        (TypeBox.FLAMMABLE, TypeBox.EXPLOSIVE, TypeBox.TOXIC, TypeBox.RADIOACTIVE, TypeBox.CORROSIVE,
+         TypeBox.OXIDIZING, TypeBox.PRESSURIZED),
+        (TypeBox.ALIMENTAL, TypeBox.TOXIC, TypeBox.RADIOACTIVE, TypeBox.CORROSIVE, TypeBox.OXIDIZING,
+         TypeBox.PRESSURIZED, TypeBox.FRAGILE),
+        (TypeBox.ALIMENTAL, TypeBox.TOXIC, TypeBox.RADIOACTIVE, TypeBox.CORROSIVE, TypeBox.OXIDIZING,
+         TypeBox.PRESSURIZED, TypeBox.FRAGILE),
+        (TypeBox.ALIMENTAL, TypeBox.FLAMMABLE, TypeBox.EXPLOSIVE, TypeBox.PRESSURIZED, TypeBox.FRAGILE),
+        (TypeBox.ALIMENTAL, TypeBox.FLAMMABLE, TypeBox.EXPLOSIVE, TypeBox.CORROSIVE, TypeBox.OXIDIZING,
+         TypeBox.PRESSURIZED, TypeBox.FRAGILE),
+        (TypeBox.ALIMENTAL, TypeBox.FLAMMABLE, TypeBox.EXPLOSIVE, TypeBox.RADIOACTIVE, TypeBox.OXIDIZING,
+         TypeBox.PRESSURIZED, TypeBox.FRAGILE),
+        (TypeBox.ALIMENTAL, TypeBox.FLAMMABLE, TypeBox.EXPLOSIVE, TypeBox.RADIOACTIVE, TypeBox.CORROSIVE,
+         TypeBox.PRESSURIZED, TypeBox.FRAGILE),
+        (TypeBox.ALIMENTAL, TypeBox.FLAMMABLE, TypeBox.EXPLOSIVE, TypeBox.RADIOACTIVE, TypeBox.CORROSIVE,
+         TypeBox.OXIDIZING, TypeBox.FRAGILE),
+        (TypeBox.FLAMMABLE, TypeBox.EXPLOSIVE, TypeBox.TOXIC, TypeBox.RADIOACTIVE, TypeBox.CORROSIVE,
+         TypeBox.OXIDIZING, TypeBox.PRESSURIZED)
+    )

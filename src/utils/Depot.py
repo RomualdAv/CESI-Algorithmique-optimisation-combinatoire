@@ -1,4 +1,4 @@
-from src.utils.DeliveryWindow import DeliveryWindow
+from .DeliveryWindow import DeliveryWindow
 
 """
 This class represents a depot. A depot is a place where the vehicle can park and deliver the goods.
