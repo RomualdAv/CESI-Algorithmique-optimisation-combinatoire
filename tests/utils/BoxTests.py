@@ -10,7 +10,7 @@ from utils.TypeBox import TypeBox
 from utils.DeliveryWindow import DeliveryWindow
 
 
-class TestSize(unittest.TestCase):
+class TestBox(unittest.TestCase):
 
     def test_should_instance_depot_when_all_param_is_good(self):
         size = Size(2, 3, 4)
