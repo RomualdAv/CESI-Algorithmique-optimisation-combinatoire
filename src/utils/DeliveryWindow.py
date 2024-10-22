@@ -8,13 +8,13 @@ def copyDatetime(date):
 
 """
 This class represents the delivery window with a start and end datetime.
+
+Attributes:
+    start (datetime): The start time of the delivery window
+    end (datetime): The end time of the delivery window
 """
 class DeliveryWindow:
-    def __init__(self, start, end):
-        if not isinstance(start, datetime.datetime):
-            raise ValueError("Start should be a datetime object")
-        if not isinstance(end, datetime.datetime):
-            raise ValueError("End should be a datetime object")
+    def __init__(self, start: datetime, end: datetime):
         self.__start = copyDatetime(start)
         self.__end = copyDatetime(end)
     """

@@ -10,7 +10,7 @@ class Size:
 
     Raise a ValueError if the width, height or length is negative
     """
-    def __init__(self, width, height, length):
+    def __init__(self, width:float, height:float, length:float):
         if width < 0 or height < 0 or length < 0:
             raise ValueError("Width, height and length must be positive")
         self.__width = width

@@ -16,9 +16,7 @@ Attributes:
     type (TypeBox): Type of the box
 """
 class Box:
-    def __init__(self, id_box,destination, size, delivery_window,type_box):
-        if not isinstance(destination, Depot) or not isinstance(id_box, uuid.UUID) or not isinstance(destination, Depot) or not isinstance(size, Size) or not isinstance(delivery_window, DeliveryWindow) or not isinstance(type_box, TypeBox):
-            raise TypeError("Destination must be a Depot object")
+    def __init__(self, id_box: uuid.UUID,destination: Depot, size: Size, delivery_window: DeliveryWindow,type_box: TypeBox):
         self.id_box= id_box
         self.destination= destination 
         self.size= size
