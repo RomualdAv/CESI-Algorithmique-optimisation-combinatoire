@@ -1,6 +1,5 @@
 import uuid
 
-from src.utils.DeliveryWindow import DeliveryWindow
 from src.utils.Depot import Depot
 from src.utils.Size import Size
 from src.utils.TypeBox import TypeBox
@@ -16,15 +15,34 @@ Attributes:
     type (TypeBox): Type of the box
 """
 class Box:
-    def __init__(self, id_box: uuid.UUID,destination: Depot, size: Size, delivery_window: DeliveryWindow,type_box: TypeBox):
-        self.id_box= id_box
-        self.destination= destination 
-        self.size= size
-        self.delivery_window= delivery_window
-        self.type = type_box 
-    
+    def __init__(self, id_box: uuid,destination: Depot, size: Size,type_box: TypeBox):
+        self.__id_box= id_box
+        self.__destination= destination
+        self.__size= size
+        self.__type = type_box
+    """
+    This method returns the ID of the box.
+    """
+    def getIdBox(self) -> uuid:
+        return self.__id_box
+    """
+    This method returns the destination of the box.
+    """
+    def getDestination(self) -> Depot:
+        return self.__destination
+    """
+    This method returns the size of the box.
+    """
+    def getSize(self) -> Size:
+        return self.__size
+    """
+    This method returns the type of the box.
+    """
+    def getLocation(self) -> TypeBox:
+        return self.__type
+
     def __str__(self):
-        return f"Box ID: {self.id_box}, Destination:{self.destination.name},size: { self.size}, DeliveryWindow: { self.delivery_window}, Type: {self.type.name}"
+        return f"Box ID: {self.__id_box}, Destination:{self.__destination.getName},size: { self.__size}, DeliveryWindow: { self.__destination.getDeliveryWindow}, Type: {self.__type.name}"
     
         
        
