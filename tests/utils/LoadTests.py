@@ -5,9 +5,11 @@ import sys
 import uuid
 sys.path.insert(0, '../src')
 import unittest
+from domains.Load import Load
 from utils.Box import Box
 from utils.Size import Size
 from utils.Depot import Depot
+from utils.Truck import Truck
 from utils.TypeBox import TypeBox
 from utils.DeliveryWindow import DeliveryWindow
 
@@ -16,7 +18,7 @@ class TestChargement(unittest.TestCase):
     def setUp(self):
         """Configuration de base pour chaque test."""
         self.truck = Truck(max_weight=1000, max_volume=5000)
-        self.chargement = Chargement(self.truck)
+        self.chargement = Load(self.truck)
 
         # Création de quelques boîtes pour les tests
         self.box1 = Box(id=uuid.uuid4(), weight=200, volume=1000, box_type='fragile')
