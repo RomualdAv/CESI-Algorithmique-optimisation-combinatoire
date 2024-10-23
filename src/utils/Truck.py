@@ -34,13 +34,13 @@ class Truck:
         return self.__type
 
     """Method that return the total weight the truck is currently transporting"""
+
     def getCurrentWeight(self):
         current_weight = 0
         if self.__fret == []:
             raise TruckError("Truck does not contain any fret")
         else:
             return sum(box.size for box in self.__fret)
-
     """Method that return a boolean value to know if a box size < truck capacity"""
     def canContain(self, box:Box):
         return box.size <= (self.__size - self.get_current_weight())
