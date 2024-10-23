@@ -1,11 +1,6 @@
-﻿import sys
-
-from src.utils.TypeTruck import typeOfTruckToUse
-
-sys.path.insert(0, '../src')
-import unittest
-from utils.TypeTruck import TypeTruck
-from utils.TypeBox import TypeBox
+﻿import unittest
+from src.utils.TypeTruck import *
+from src.utils.TypeBox import *
 
 class TestTypeTruck(unittest.TestCase):
 

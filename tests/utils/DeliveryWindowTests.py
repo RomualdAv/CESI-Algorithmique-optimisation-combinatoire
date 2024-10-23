@@ -1,8 +1,6 @@
-﻿import sys
-sys.path.insert(0, '../src')
-import unittest
+﻿import unittest
 import datetime
-from utils.DeliveryWindow import DeliveryWindow
+from src.utils.DeliveryWindow import DeliveryWindow
 
 class TestDeliveryWindow(unittest.TestCase):
 
@@ -28,11 +26,11 @@ class TestDeliveryWindow(unittest.TestCase):
     def test_should_not_create_an_object_when_the_date_arent_a_datetime(self):
         date1 = datetime.datetime(2021, 5, 17, 9, 0)
         date2 = datetime.datetime(2021, 5, 17, 10, 0)
-        with self.assertRaises(ValueError):
+        with self.assertRaises(AttributeError):
             DeliveryWindow(date1,0)
-        with self.assertRaises(ValueError):
+        with self.assertRaises(AttributeError):
             DeliveryWindow(0,date2)
-        with self.assertRaises(ValueError):
+        with self.assertRaises(AttributeError):
             DeliveryWindow("",0.0)
 
     def test_should_get_string_of_window(self):

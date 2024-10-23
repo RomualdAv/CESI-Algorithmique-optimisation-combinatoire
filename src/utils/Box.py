@@ -1,8 +1,8 @@
 import uuid
 
-from src.utils.Depot import Depot
-from src.utils.Size import Size
-from src.utils.TypeBox import TypeBox
+from .Depot import Depot
+from .Size import Size
+from .TypeBox import TypeBox
 
 """
 This class represents a Box object.
@@ -15,7 +15,9 @@ Attributes:
     type (TypeBox): Type of the box
 """
 class Box:
-    def __init__(self, id_box: uuid,destination: Depot, size: Size,type_box: TypeBox):
+    def __init__(self, id_box: uuid.UUID,destination: Depot, size: Size,type_box: TypeBox):
+        if not isinstance(id_box, uuid.UUID) or not isinstance(destination, Depot) or not isinstance(size, Size) or not isinstance(type_box, TypeBox):
+            raise AttributeError("Parameter aren't good type")
         self.__id_box= id_box
         self.__destination= destination
         self.__size= size
@@ -23,7 +25,7 @@ class Box:
     """
     This method returns the ID of the box.
     """
-    def getIdBox(self) -> uuid:
+    def getIdBox(self) -> uuid.UUID:
         return self.__id_box
     """
     This method returns the destination of the box.

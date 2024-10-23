@@ -6,3 +6,6 @@ class BoxIDError(Exception):
 
 class CsvError(Exception):
     pass
+
+class UncreatedTypeError(Exception):
+    pass

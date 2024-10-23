@@ -1,4 +1,4 @@
-from src.utils.DeliveryWindow import DeliveryWindow
+from .DeliveryWindow import DeliveryWindow
 
 """
 This class represents a depot. A depot is a place where the vehicle can park and deliver the goods.
@@ -11,6 +11,8 @@ Attributes:
 """
 class Depot:
     def __init__(self, location: int, name : str, possibility_of_parking: bool, delivery_window: DeliveryWindow):
+        if not isinstance(location, int) or not isinstance(name, str) or not isinstance(possibility_of_parking, bool) or not isinstance(delivery_window, DeliveryWindow):
+            raise AttributeError("Attribut type is not correct")
         self.__location = location
         self.__name= name
         self.__delivery_window= delivery_window # fenetre de livraison
