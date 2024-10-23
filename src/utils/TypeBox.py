@@ -1,5 +1,7 @@
 ﻿from enum import Enum
 
+from .error import UncreatedTypeError
+
 """
 This class is an enumeration of the types of boxes.
 """
@@ -18,35 +20,11 @@ class TypeBox(Enum):
     """
     The method isPossibleToTransport checks if the box can be transported with the other boxes.
     """
-    def isPossibleToTransport(self, listtypebox):
-        if self == TypeBox.ALIMENTAL:
-            if not listtypebox.contains(listNotPossible[1]):
-                return False
-        elif self == TypeBox.FLAMMABLE:
-            if not listtypebox.contains(listNotPossible[2]):
-                return False
-        elif self == TypeBox.EXPLOSIVE:
-            if not listtypebox.contains(listNotPossible[3]):
-                return False
-        elif self == TypeBox.TOXIC:
-            if not listtypebox.contains(listNotPossible[4]):
-                return False
-        elif self == TypeBox.RADIOACTIVE:
-            if not listtypebox.contains(listNotPossible[5]):
-                return False
-        elif self == TypeBox.CORROSIVE:
-            if not listtypebox.contains(listNotPossible[6]):
-                return False
-        elif self == TypeBox.OXIDIZING:
-            if not listtypebox.contains(listNotPossible[7]):
-                return False
-        elif self == TypeBox.PRESSURIZED:
-            if not listtypebox.contains(listNotPossible[8]):
-                return False
-        elif self == TypeBox.FRAGILE:
-            if not listtypebox.contains(listNotPossible[9]):
-                return False
-        return True
+    def isPossibleToTransport(self, listtypebox: list) -> bool:
+        if not any(elem in listtypebox for elem in listNotPossible[self.value]):
+            return True
+        else:
+            return False
     """
     This method returns the name of the type of box.
     """

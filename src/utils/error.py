@@ -3,3 +3,6 @@
 
 class BoxIDError(Exception):
     pass
+
+class UncreatedTypeError(Exception):
+    pass

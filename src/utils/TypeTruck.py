@@ -9,21 +9,6 @@ listnotposible = (
             ()
         )
 """
-This function returns the type of truck to use.
-"""
-def typeOfTruckToUse(listtypebox):
-    if not listtypebox.contains(listnotposible[0]):
-        return TypeTruck.OPEN
-    elif not listtypebox.contains(listnotposible[1]):
-        return TypeTruck.REFRIGERATE
-    elif not listtypebox.contains(listnotposible[2]):
-        return TypeTruck.WATERTIGHT
-    elif not listtypebox.contains(listnotposible[3]):
-        return TypeTruck.PLATED
-
-    #Impossible to determine the type of truck
-    raise TruckError("Impossible to determine the type of truck")
-"""
 This class is an enumeration of the types of trucks.
 """
 class TypeTruck(Enum):
@@ -38,3 +23,19 @@ class TypeTruck(Enum):
 
     def __str__(self):
         return self.name
+
+"""
+This function returns the type of truck to use.
+"""
+def typeOfTruckToUse(listtypebox: list) -> TypeTruck:
+    if not any(elem in listtypebox for elem in listnotposible[0]):
+        return TypeTruck.OPEN
+    elif not any(elem in listtypebox for elem in listnotposible[1]):
+        return TypeTruck.REFRIGERATE
+    elif not any(elem in listtypebox for elem in listnotposible[2]):
+        return TypeTruck.WATERTIGHT
+    elif not any(elem in listtypebox for elem in listnotposible[3]):
+        return TypeTruck.PLATED
+
+    #Impossible to determine the type of truck
+    raise TruckError("Impossible to determine the type of truck")
