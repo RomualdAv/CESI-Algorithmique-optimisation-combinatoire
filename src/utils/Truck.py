@@ -33,6 +33,9 @@ class Truck:
     def get_type(self)->TypeTruck:
         return self.__type
 
+    def get_fret(self)->set:
+        return set(self.__fret)
+
     """Method that return the total weight the truck is currently transporting"""
     def getCurrentWeight(self)->int:
         if not self.__fret:
