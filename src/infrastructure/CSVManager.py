@@ -5,7 +5,7 @@ from src.utils.error import CsvError
 class CsvManager:
     def __init__(self):
         pass #no attributs
-    
+
     """Method that creates a csv file
     rep = repository path such as : "instances/filename.csv"
     data = raw data to write in the file, example : [["column1", "column2", "column3"], ["value1", "value2", "value3"]]
@@ -18,7 +18,7 @@ class CsvManager:
                 writer.writerows(data)
         except OSError:
             raise CsvError(f"Error while creating csv file in repository : {full_rep}")
-    
+
     """Method that reads file data from a specific line and returns it
     rep = repository path such as : "instances/filename.csv"
     line = line number you wanna read (0 = header values)
@@ -34,7 +34,7 @@ class CsvManager:
                 raise CsvError(f"Line number {line} does not exist in the file.")
         except OSError:
             raise CsvError(f"Error while attempting to read csv file at repository: {full_rep}")
-    
+
     """Method for editing a specific line in a csv file
     rep = repository path such as : "instances/filename.csv"
     line = line number you wanna read (0 = header values)
