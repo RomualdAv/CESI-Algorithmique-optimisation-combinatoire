@@ -32,7 +32,7 @@ class Itinerary:
         """
         return self.__end_location
 
-    def get_waypoints(self) -> [int]:
+    def get_waypoints(self) -> list:
         """
         This method returns the waypoints of the itinerary.
         """
