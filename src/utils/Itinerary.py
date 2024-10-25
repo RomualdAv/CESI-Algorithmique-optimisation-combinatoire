@@ -44,3 +44,10 @@ class Itinerary:
         """
         return self.__travel_time
 
+    def __eq__(self, other):
+        """
+        This method checks if two itineraries are equal.
+        """
+        if not isinstance(other, Itinerary):
+            return False
+        return self.__start_location == other.get_start_location() and self.__end_location == other.get_end_location() and self.__waypoints == other.get_waypoints() and self.__travel_time == other.get_travel_time()
