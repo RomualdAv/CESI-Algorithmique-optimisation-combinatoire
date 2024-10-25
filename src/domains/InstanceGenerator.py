@@ -1,6 +1,6 @@
 ﻿import random
 
-def generateGraph(nb_nodes: int, nb_edges: int) -> []:
+def generateGraph(nb_nodes: int, nb_edges: int) -> list[list[float]]:
     """
     Generate a graph with nb_nodes nodes and nb_edges edges.
     This graph is represented by an adjacency matrix.
@@ -9,31 +9,30 @@ def generateGraph(nb_nodes: int, nb_edges: int) -> []:
     Args:
         nb_nodes (int): The number of nodes in the graph.
         nb_edges (int): The number of edges in the graph.
+
+    Returns:
+        list[list[float]]: The generated graph as an adjacency matrix.
     """
     # Create a graph with nb_nodes nodes and no edges
-    graph = []
-    for i in range(nb_nodes):
-        graph[i] = []
-        for j in range(nb_nodes):
-            graph[i][j] = float('inf')
+    graph = [[float('inf')] * nb_nodes for _ in range(nb_nodes)]
 
     # Add randomly nb_edges edges to the graph
-    for i in range(nb_edges):
-        #Get randomly two nodes
+    for _ in range(nb_edges):
+        # Get randomly two nodes
         node1 = random.randint(0, nb_nodes - 1)
         node2 = random.randint(0, nb_nodes - 1)
-        #Make sure the two nodes are different
+        # Make sure the two nodes are different
         while node1 == node2:
             node1 = random.randint(0, nb_nodes - 1)
             node2 = random.randint(0, nb_nodes - 1)
-        #Generate a random weight for the edge
-        prob = random.randint(0,100)
-        #70% of the time, the weight is between 1 and 180 because it's a small way
+        # Generate a random weight for the edge
+        prob = random.randint(0, 100)
+        # 70% of the time, the weight is between 1 and 180 because it's a small way
         if prob < 70:
             weight = random.randint(1, 180)
         else:
             weight = random.randint(181, 360)
-        #Add the edge to the graph
+        # Add the edge to the graph
         graph[node1][node2] = weight
         graph[node2][node1] = weight
 

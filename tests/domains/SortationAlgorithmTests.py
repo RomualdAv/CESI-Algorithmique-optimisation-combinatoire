@@ -1,7 +1,9 @@
 ﻿import unittest
+import time
 
 from src.utils import *
 from src.domains.SortationAlgorithm import *
+from src.domains.InstanceGenerator import generateGraph
 
 class TestInstanceGenerator(unittest.TestCase):
 
@@ -38,21 +40,50 @@ class TestInstanceGenerator(unittest.TestCase):
 
         self.assertEqual(liste, liste_gen)
 
-    def test_should_generate_matrix_Floyd_Warshall_for_symetric_graph(self):
+    def test_should_generate_matrix_Floyd_Warshall_for_not_oriented_graph(self):
         graph = [
-            [0.0, 2.0, 5.0],
-            [2.0, 0.0, float('INF')],
-            [5.0, float('INF'), 0.0],
+            [0, 2, 5],
+            [2, 0, float('INF')],
+            [5, float('INF'), 0],
         ]
 
         matrix = createMatrixItinerary(graph)
 
         matrix_manual = [
-            [Itinerary(0,0,[],0.0), Itinerary(0,1,[],2.0), Itinerary(0,2,[],5.0)],
-            [Itinerary(1,0,[],2.0), Itinerary(1,1,[],0.0), Itinerary(1,2,[0],7.0)],
-            [Itinerary(2,0,[],5.0), Itinerary(2,1,[0],7.0), Itinerary(2,2,[],0.0)],
+            [Itinerary(0,0,[],0), Itinerary(0,1,[],2), Itinerary(0,2,[],5)],
+            [Itinerary(1,0,[],2), Itinerary(1,1,[],0), Itinerary(1,2,[0],7)],
+            [Itinerary(2,0,[],5), Itinerary(2,1,[0],7), Itinerary(2,2,[],0)],
         ]
 
         self.assertEqual(matrix, matrix_manual)
+
+    def test_should_generate_matrix_Floyd_Warshall_for_oriented_graph(self):
+        graph = [
+            [0, 2, 5,8,float('INF')],
+            [2, 0, float('INF'),8,5],
+            [5, float('INF'), 0,6,3],
+            [8, 2, 5, 0, 3],
+            [3, 2, float('INF'), 7, 0],
+        ]
+
+        matrix = createMatrixItinerary(graph)
+
+        for i in matrix:
+            for j in i:
+                self.assertNotEqual(j.getTravelTime(), float('INF'))
+
+    def test_should_generate_matrix_Floyd_Warshall_for_oriented_graph_with_negative_cycle(self):
+        graph = generateGraph(1000, 850000)
+        print("Start test performance")
+        start = time.time()
+
+        matrix = createMatrixItinerary(graph)
+
+        end = time.time()
+        print("End test performance")
+        print("Time to generate matrix for 1000 nodes and 700 edges: ", end-start)
+        for i in matrix:
+            for j in i:
+                self.assertNotEqual(j.getTravelTime(), float('INF'))
 if __name__ == '__main__':
     unittest.main()
