@@ -7,7 +7,6 @@ from src.utils.Depot import Depot
 from src.utils.TypeBox import TypeBox
 from src.utils.DeliveryWindow import DeliveryWindow
 
-
 class TestBox(unittest.TestCase):
 
     def test_should_instance_depot_when_all_param_is_good(self):
