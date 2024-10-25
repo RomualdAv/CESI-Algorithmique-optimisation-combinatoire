@@ -10,16 +10,19 @@ class Load:
         return (self.total_weight + box.weight <= self.truck.max_weight and
                 self.total_volume + box.volume <= self.truck.max_volume)
 
-    def load_box(self, box):
-        """Charge la boîte dans le camion si possible."""
-        if self.can_load_box(box):
-            self.loaded_boxes.append(box)
-            self.total_weight += box.weight
-            self.total_volume += box.volume
-            print(f"Box {box.id} of type '{box.type}' loaded into the truck.")
-        else:
-            print(f"Cannot load Box {box.id}: exceeds truck capacity.")
 
+    def add_box(self, box):
+        """Ajoute un colis à la liste des colis à charger."""
+        self.boxes.append(box)
+
+ 
+    def sort_boxes(self):
+        """Trie les colis par ordre de priorité et de temps de livraison."""
+        # On trie d'abord par priorité (plus la valeur est basse, plus c'est prioritaire),
+        # puis par temps de livraison (plus bas en premier).
+
+        self.boxes.sort(key=lambda box: (box.priority, box.delivery_time))
+        
     def load_boxes(self, boxes):
         """Charge les boîtes en tenant compte de leur type et de la capacité du camion."""
         # Trier les boîtes par type, puis par poids et volume
@@ -30,8 +33,34 @@ class Load:
                 self.load_box(box)
             else:
                 print("Truck is full. No more boxes can be loaded.")
-                break  # Sortir de la boucle si le camion est plein
+             
+            break  # Sortir de la boucle si le camion est plein
 
+    def sort_boxes_by_time(self):
+        """Trie les colis par ordre de temps de livraison."""
+        self.boxes.sort(key=lambda box: box.delivery_time)
+
+    def load_trucks(self, trucks):
+        """Charge les colis dans les camions en fonction de la priorité."""
+        self.sort_boxes()
+        
+        for truck in trucks:
+            while self.boxes and truck.can_load(self.boxes[0]):
+                box = self.boxes.pop(0)  # Prendre le colis le plus prioritaire
+                truck.load_box(box)  # Charger le colis dans le camion
+
+
+    def load_box(self, box):
+        """Charge la boîte dans le camion si possible."""
+        if self.can_load_box(box):
+            self.loaded_boxes.append(box)
+            self.total_weight += box.weight
+            self.total_volume += box.volume
+            print(f"Box {box.id} of type '{box.type}' loaded into the truck.")
+        else:
+            print(f"Cannot load Box {box.id}: exceeds truck capacity.")
+
+  
     def is_truck_full(self):
         """Vérifie si le camion est plein."""
         return self.total_weight >= self.truck.max_weight or self.total_volume >= self.truck.max_volume
