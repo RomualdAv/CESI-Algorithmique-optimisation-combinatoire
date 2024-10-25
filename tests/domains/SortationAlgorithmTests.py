@@ -1,7 +1,7 @@
 ﻿import unittest
 
 from src.utils import *
-from src.domains.SortationAlgorithm import boxDeliveryWindowSorting
+from src.domains.SortationAlgorithm import *
 
 class TestInstanceGenerator(unittest.TestCase):
 
@@ -37,5 +37,22 @@ class TestInstanceGenerator(unittest.TestCase):
         liste = [box1, box2, box3, box5, box4]
 
         self.assertEqual(liste, liste_gen)
+
+    def test_should_generate_matrix_Floyd_Warshall_for_symetric_graph(self):
+        graph = [
+            [0.0, 2.0, 5.0],
+            [2.0, 0.0, float('INF')],
+            [5.0, float('INF'), 0.0],
+        ]
+
+        matrix = createMatrixItinerary(graph)
+
+        matrix_manual = [
+            [Itinerary(0,0,[],0.0), Itinerary(0,1,[],2.0), Itinerary(0,2,[],5.0)],
+            [Itinerary(1,0,[],2.0), Itinerary(1,1,[],0.0), Itinerary(1,2,[0],7.0)],
+            [Itinerary(2,0,[],5.0), Itinerary(2,1,[0],7.0), Itinerary(2,2,[],0.0)],
+        ]
+
+        self.assertEqual(matrix, matrix_manual)
 if __name__ == '__main__':
     unittest.main()
