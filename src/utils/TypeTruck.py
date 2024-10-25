@@ -29,7 +29,7 @@ This class is an enumeration of the types of trucks.
 class TypeTruck(Enum):
     OPEN = 0
     REFRIGERATE = 1
-    WATERTIGHT = 2
+    WATERTIGHT = 2 
     PLATED = 3
 
     """
