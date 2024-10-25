@@ -48,18 +48,7 @@ class Load:
             return True
         print(f"Cannot load Box {box.id}: exceeds truck capacity.")
         return False
-
-    def unload_box(self, box_id):
-        """Décharge la boîte identifiée par box_id."""
-        for box in self.loaded_boxes:
-            if box.id == box_id:
-                self.loaded_boxes.remove(box)
-                self.total_weight -= box.weight
-                self.total_volume -= box.volume
-                print(f"Box {box.id} unloaded from the truck.")
-                return
-        print(f"Box {box_id} not found in the truck.")
-
+    
     def current_load_status(self):
         """Affiche l'état actuel du chargement."""
         print(f"Total weight: {self.total_weight} / {self.truck.max_weight}")
@@ -69,20 +58,6 @@ class Load:
         remaining_volume = self.truck.max_volume - self.total_volume
         print(f"Remaining weight capacity: {remaining_weight}")
         print(f"Remaining volume capacity: {remaining_volume}")
-
-
-    def add_or_remove_box(self, box, action):
-        """Ajoute ou retire une boîte de la liste des boîtes à charger."""
-        if action == 'add':
-            self.boxes.append(box)
-            print(f"Box {box.id} added to the loading queue.")
-        elif action == 'remove':
-            for b in self.boxes:
-                if b.id == box.id:
-                    self.boxes.remove(b)
-                    print(f"Box {box.id} removed from the loading queue.")
-                    return
-            print(f"Box {box.id} not found in the loading queue.")
 
     def view_boxes(self):
         """Affiche toutes les boîtes en attente de chargement."""
