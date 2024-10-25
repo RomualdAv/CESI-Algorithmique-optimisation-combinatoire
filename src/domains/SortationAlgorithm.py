@@ -12,7 +12,7 @@ def boxDeliveryWindowSorting(truck: Truck) -> list[Box]:
     boxes = sorted(boxes, key=lambda x: x.getDestination().getDeliveryWindow().getEnd())
     return boxes
 
-def createMatriceItinerary(graph: [float]) -> [Itinerary]:
+def createMatrixItinerary(graph: [float]) -> [Itinerary]:
     """
     This function creates a matrix of itinerary between the waypoints using the Floyd-Warshall algorithm.
 
@@ -27,7 +27,7 @@ def createMatriceItinerary(graph: [float]) -> [Itinerary]:
             for j in range(len_graph):
                 # Update the distance by comparing direct distance and distance via k
                 if dist[i][j].get_travel_time() > dist[i][k].get_travel_time() + dist[k][j].get_travel_time():
-                    dist[i][j] = Itinerary(i,j,dist[i][k].get_waypoints() + dist[k][j].get_waypoints(),dist[i][k].get_travel_time() + dist[k][j].get_travel_time())
+                    dist[i][j] = Itinerary(i,j,dist[i][k].get_waypoints() + [k] + dist[k][j].get_waypoints(),dist[i][k].get_travel_time() + dist[k][j].get_travel_time())
 
     return dist
 
