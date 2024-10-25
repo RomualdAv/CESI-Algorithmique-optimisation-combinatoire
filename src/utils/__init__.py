@@ -8,3 +8,4 @@ from .Truck import *
 from .TypeBox import *
 from .TypeTruck import *
 from .error import *
+from .Itinerary import *
