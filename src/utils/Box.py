@@ -39,7 +39,7 @@ class Box:
     This method returns the type of the box.
     """
     def getLocation(self) -> TypeBox:
-        return self.__type
+        return self.__type 
 
     def __str__(self):
         return f"Box ID: {self.__id_box}, Destination:{self.__destination.getName},size: { self.__size}, DeliveryWindow: { self.__destination.getDeliveryWindow}, Type: {self.__type.name}"
