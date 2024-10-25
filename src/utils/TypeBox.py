@@ -1,11 +1,10 @@
 ﻿from enum import Enum
+from .TypeTruck import TypeTruck
 
-from .error import UncreatedTypeError
-
-"""
-This class is an enumeration of the types of boxes.
-"""
 class TypeBox(Enum):
+    """
+    This class is an enumeration of the types of boxes.
+    """
     NOTSPECIFY = 0
     ALIMENTAL = 1
     FLAMMABLE = 2
@@ -17,17 +16,31 @@ class TypeBox(Enum):
     PRESSURIZED = 8
     FRAGILE = 9
 
-    """
-    The method isPossibleToTransport checks if the box can be transported with the other boxes.
-    """
     def isPossibleToTransport(self, listtypebox: list) -> bool:
+        """
+        The method isPossibleToTransport checks if the box can be transported with the other boxes.
+        """
         if not any(elem in listtypebox for elem in listNotPossible[self.value]):
             return True
         else:
             return False
-    """
-    This method returns the name of the type of box.
-    """
+
+    def typeOfTruckToUse(self) -> [TypeTruck]:
+        """
+        This function returns the type of truck to use.
+        """
+        type_list = list()
+        if not any(elem == self for elem in list_not_possible_truck[0]):
+            type_list.append(TypeTruck.OPEN)
+        if not any(elem == self for elem in list_not_possible_truck[1]):
+            type_list.append(TypeTruck.REFRIGERATE)
+        if not any(elem == self for elem in list_not_possible_truck[2]):
+            type_list.append(TypeTruck.WATERTIGHT)
+        if not any(elem == self for elem in list_not_possible_truck[3]):
+            type_list.append(TypeTruck.PLATED)
+
+        return type_list
+
     def __str__(self):
         return self.name
 
@@ -51,3 +64,10 @@ listNotPossible = (
         (TypeBox.FLAMMABLE, TypeBox.EXPLOSIVE, TypeBox.TOXIC, TypeBox.RADIOACTIVE, TypeBox.CORROSIVE,
          TypeBox.OXIDIZING, TypeBox.PRESSURIZED)
     )
+
+list_not_possible_truck = (
+            (TypeBox.ALIMENTAL,TypeBox.TOXIC, TypeBox.RADIOACTIVE, TypeBox.CORROSIVE,TypeBox.OXIDIZING),
+            (TypeBox.FLAMMABLE, TypeBox.EXPLOSIVE, TypeBox.TOXIC, TypeBox.RADIOACTIVE, TypeBox.CORROSIVE,TypeBox.OXIDIZING, TypeBox.PRESSURIZED),
+            (TypeBox.RADIOACTIVE,TypeBox.PRESSURIZED),
+            ()
+        )
