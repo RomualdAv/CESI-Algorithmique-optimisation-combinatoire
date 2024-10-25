@@ -1,4 +1,4 @@
-from ..utils import Box, Truck
+from ..utils import Box, Truck, Itinerary
 
 def boxDeliveryWindowSorting(truck: Truck) -> list[Box]:
     """
@@ -11,3 +11,39 @@ def boxDeliveryWindowSorting(truck: Truck) -> list[Box]:
     boxes = truck.get_fret()
     boxes = sorted(boxes, key=lambda x: x.getDestination().getDeliveryWindow().getEnd())
     return boxes
+
+def createMatriceItinerary(graph: [float]) -> [Itinerary]:
+    """
+    This function creates a matrix of itinerary between the waypoints using the Floyd-Warshall algorithm.
+
+    Args:
+        graph ([float]): The graph containing the waypoints and the distances between them.
+    """
+    len_graph = len(graph)
+    dist = [[Itinerary(i,j,[],graph[i][j]) for j in range(len_graph)] for i in range(len_graph)]
+
+    for k in range(len_graph):
+        for i in range(len_graph):
+            for j in range(len_graph):
+                # Update the distance by comparing direct distance and distance via k
+                if dist[i][j].get_travel_time() > dist[i][k].get_travel_time() + dist[k][j].get_travel_time():
+                    dist[i][j] = Itinerary(i,j,dist[i][k].get_waypoints() + dist[k][j].get_waypoints(),dist[i][k].get_travel_time() + dist[k][j].get_travel_time())
+
+    return dist
+
+def chainWaypointSorting(boxes: list[Box],distance: [],starting_depot: int) -> []:
+    """
+    This function search the shortest path between the boxes using the graph.
+
+    Args:
+        boxes (list[Box]): The boxes to be sorted
+        distance ([]): The matrix of distances between the waypoints
+        starting_depot (int): The starting depot
+    """
+    ways = []
+    index = 0
+    now_point = starting_depot
+    while len(ways) < len(boxes):
+        next_point = boxes[index].getDestination().getLocation()
+        ways.append(distance[now_point][next_point])
+    return ways
