@@ -73,7 +73,7 @@ class TestInstanceGenerator(unittest.TestCase):
                 self.assertNotEqual(j.getTravelTime(), float('INF'))
 
     def test_should_generate_matrix_Floyd_Warshall_for_oriented_graph_with_negative_cycle(self):
-        graph = generateGraph(1000, 850000)
+        graph = generateGraph(1000, 850000, False)
         print("Start test performance")
         start = time.time()
 
