@@ -1,6 +1,6 @@
 ﻿import random
 
-def generateGraph(nb_nodes: int, nb_edges: int) -> list[list[float]]:
+def generateGraph(nb_nodes: int, nb_edges: int, symmetric: bool) -> list[list[float]]:
     """
     Generate a graph with nb_nodes nodes and nb_edges edges.
     This graph is represented by an adjacency matrix.
@@ -9,31 +9,69 @@ def generateGraph(nb_nodes: int, nb_edges: int) -> list[list[float]]:
     Args:
         nb_nodes (int): The number of nodes in the graph.
         nb_edges (int): The number of edges in the graph.
-
+        symmetric (bool): If the graph is symmetric or not.
     Returns:
         list[list[float]]: The generated graph as an adjacency matrix.
     """
     # Create a graph with nb_nodes nodes and no edges
     graph = [[float('inf')] * nb_nodes for _ in range(nb_nodes)]
+    # Create the list of this edges
+    list_edges = []
+    start = 1
+    for i in range(nb_nodes):
+        for j in range(start, nb_nodes):
+            list_edges.append((i, j))
+        start += 1
 
     # Add randomly nb_edges edges to the graph
     for _ in range(nb_edges):
         # Get randomly two nodes
-        node1 = random.randint(0, nb_nodes - 1)
-        node2 = random.randint(0, nb_nodes - 1)
-        # Make sure the two nodes are different
-        while node1 == node2:
-            node1 = random.randint(0, nb_nodes - 1)
-            node2 = random.randint(0, nb_nodes - 1)
+        try:
+            node1, node2 = list_edges.pop(random.randint(0, len(list_edges)-1))
+        except ValueError:
+            break
         # Generate a random weight for the edge
-        prob = random.randint(0, 100)
-        # 70% of the time, the weight is between 1 and 180 because it's a small way
-        if prob < 70:
-            weight = random.randint(1, 180)
+        if symmetric:
+            generateSymmetricWeight(graph, node1, node2)
         else:
-            weight = random.randint(181, 360)
-        # Add the edge to the graph
-        graph[node1][node2] = weight
-        graph[node2][node1] = weight
+            generateAsymmetricWeight(graph, node1, node2)
 
     return graph
+
+def generateSymmetricWeight(graph: list[list[float]], node1: int, node2: int) -> None:
+    """
+    Generate a symmetric weight for the graph.
+
+    Args:
+        graph (list[list[float]]): The graph to modify.
+        node1 (int): The first node.
+        node2 (int): The second node.
+    """
+    # 70% of the time, the weight is between 1 and 180 because it's a small way
+    if random.randint(0, 100) < 70:
+        weight = random.randint(1, 180)
+    else:
+        weight = random.randint(181, 360)
+    # Add the edge to the graph
+    graph[node1][node2] = weight
+    graph[node2][node1] = weight
+
+def generateAsymmetricWeight(graph: list[list[float]], node1: int, node2: int) -> None:
+    """
+    Generate an asymmetric weight for the graph.
+
+    Args:
+        graph (list[list[float]]): The graph to modify.
+        node1 (int): The first node.
+        node2 (int): The second node.
+    """
+    # 70% of the time, the weight is between 1 and 180 because it's a small way
+    if random.randint(0, 100) < 70:
+        weight1 = random.randint(1, 180)
+        weight2 = random.randint(1, 180)
+    else:
+        weight1 = random.randint(181, 360)
+        weight2 = random.randint(181, 360)
+    # Add the edge to the graph
+    graph[node1][node2] = weight1
+    graph[node2][node1] = weight2
