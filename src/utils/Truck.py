@@ -39,7 +39,7 @@ class Truck:
     """Method that return the total weight the truck is currently transporting"""
     def getCurrentWeight(self)->int:
         if not self.__fret:
-            raise TruckError("Truck does not contain any fret")
+            return 0
         else:
             return sum(box.getSize().getVolume() for box in self.__fret)
 

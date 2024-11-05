@@ -17,6 +17,21 @@ class Size:
         self.__height = height
         self.__length = length
 
+    def get_width(self):
+        """
+        Method to get the width of the size
+        """
+        return self.__width
+    def get_height(self):
+        """
+        Method to get the height of the size
+        """
+        return self.__height
+    def get_length(self):
+        """
+        Method to get the length of the size
+        """
+        return self.__length
     """Method to get the volume of the size"""
     def getVolume(self):
         return self.__width * self.__height * self.__length
