@@ -40,7 +40,7 @@ class Box:
     """
     This method returns the type of the box.
     """
-    def getLocation(self) -> TypeBox:
+    def getType(self) -> TypeBox:
         return self.__type
 
     def __str__(self):
