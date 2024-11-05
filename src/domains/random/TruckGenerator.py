@@ -11,6 +11,11 @@ from src import DeliveryWindow
 
 
 def generate_truck(nb_truck: int) -> list[Truck]:
+    """
+    Generate a list of truck with random values
+    :param nb_truck: Number of truck to generate
+    :return: A list of truck
+    """
     truck_list = list()
     name = 1
     for _ in range(nb_truck):
@@ -23,8 +28,13 @@ def generate_truck(nb_truck: int) -> list[Truck]:
 
     return truck_list
 
-def generate_box(truck: Truck,nb_nodes,start_node) -> None:
-
+def generate_box(truck: Truck,nb_nodes: int,start_node: int) -> None:
+    """
+    Generate a random number of box for a truck
+    :param truck: The truck to fill
+    :param nb_nodes: The number of nodes in the graph
+    :param start_node: The start node of the truck
+    """
     for _ in range(random.randint(1, 25)):
         # Generate a random Depot
         node = random.randint(0, nb_nodes-1)
