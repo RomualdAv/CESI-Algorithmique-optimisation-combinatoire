@@ -34,7 +34,7 @@ class Truck:
         return self.__type
 
     """Method that return the total weight the truck is currently transporting"""
-
+  
     def getCurrentWeight(self):
         current_weight = 0
         if self.__fret == []:
