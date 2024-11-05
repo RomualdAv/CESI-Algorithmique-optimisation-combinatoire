@@ -2,3 +2,4 @@
 
 from .InstanceGenerator import *
 from .SortationAlgorithm import *
+from .random import *

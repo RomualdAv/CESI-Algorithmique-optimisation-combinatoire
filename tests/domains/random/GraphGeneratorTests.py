@@ -1,8 +1,8 @@
 ﻿import unittest
-from src.domains.InstanceGenerator import generateGraph
+from src.domains.random.GraphGenerator import *
 
 
-class TestInstanceGenerator(unittest.TestCase):
+class GraphGeneratorCase(unittest.TestCase):
 
     def test_should_generate_graph_with_correct_number_of_nodes_and_edges(self):
         nb_nodes = 10
@@ -55,7 +55,7 @@ class TestInstanceGenerator(unittest.TestCase):
         nb_edges = 5
         old_graph = generateGraph(nb_nodes, nb_edges, True)
         for _ in range(10000):
-            graph = generateGraph(nb_nodes, nb_edges,True)
+            graph = generateGraph(nb_nodes, nb_edges, True)
             self.assertNotEqual(graph, old_graph)
             old_graph = graph
 
