@@ -77,6 +77,26 @@ class CsvManager:
         except OSError:
             raise CsvError(f"Error while attempting to edit csv file: {self.filename}")
 
+    def addLine(self,line):
+        """
+        Method that adds a line to the end of the file
+
+        :param line: content you want to insert such as : ["value1", "value2", "value3"]
+
+        :raises CsvError: if the file cannot be modified
+        """
+        data = []
+        try:
+            with open(self.directory, mode='r', newline='', encoding='utf-8') as f:
+                reader = csv.reader(f)
+                data = list(reader)
+            data.append(line)
+            with open(self.directory, mode='w', newline='', encoding='utf-8') as f:
+                writer = csv.writer(f)
+                writer.writerows(data)
+        except OSError:
+            raise CsvError(f"Error while attempting to modified csv file: {self.filename}")
+
     def delete(self):
         """
         Method that deletes a file
