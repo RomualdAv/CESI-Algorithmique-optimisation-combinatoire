@@ -4,28 +4,32 @@ from os import path, remove
 from src.utils.error import CsvError
 
 class CsvManager:
-    def __init__(self,directory: str, filename: str):
+    def __init__(self,directory: str, filename: str, data: list[list[str]] = None):
         """
         Constructor of the class
         :param directory: directory to the file
         :param filename: name of the file with an extension
+        :param data: data to insert in the file such as : [["column1", "column2", "column3"], ["value1", "value2", "value3"]] if the file does not exist else don't put anything
 
         :raises CsvError: if the file cannot be created
         """
 
         self.directory = path.join(directory,filename)
         self.filename = filename
-        self.__create__()
+        if data is not None:
+            self.__create__(data)
 
-    def __create__(self):
+    def __create__(self,data: list[list[str]]):
         """
         Method that creates a csv file
+
+        :param data: data to insert in the file such as : [["column1", "column2", "column3"], ["value1", "value2", "value3"]]
 
         :raises CsvError: if the file cannot be created
         """
         try:
             with open(f"{self.directory}", mode='w', newline='', encoding='utf-8') as f:
-                csv.writer(f)
+                csv.writer(f).writerows(data)
         except OSError:
             raise CsvError(f"Error while creating csv file in repository : {self.directory}")
 
