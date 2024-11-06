@@ -2,13 +2,13 @@
 import uuid
 import datetime
 
-from src import Truck
-from src import Box
-from src import TypeTruck
-from src import Size
-from src import TypeBox
-from src import Depot
-from src import DeliveryWindow
+from src.utils import Truck
+from src.utils import Box
+from src.utils import TypeTruck
+from src.utils import Size
+from src.utils import TypeBox
+from src.utils import Depot
+from src.utils import DeliveryWindow
 
 
 def generate_truck(nb_truck: int) -> list[Truck]:

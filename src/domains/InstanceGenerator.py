@@ -1,7 +1,6 @@
-﻿from src.domains.generator.GraphGenerator import *
-from src.domains.generator.TruckGenerator import *
+﻿from src.domains.generator import *
 from src.infrastructure.CSVManager import *
-from error import InstanceError
+from src.domains.error import InstanceError
 
 
 def generate_instance(directory: str, nb_nodes: int, nb_edges: int, symmetric: bool, nb_truck: int):
@@ -56,4 +55,5 @@ def generate_instance(directory: str, nb_nodes: int, nb_edges: int, symmetric: b
     except CsvError as e:
         raise InstanceError(f"Error while saving the instance: {e}")
 
-generate_instance("../infrastructure/instances", 10, 20, True, 2)
+if __name__ == "__main__":
+    generate_instance("../infrastructure/instances", 10, 20, True, 2)

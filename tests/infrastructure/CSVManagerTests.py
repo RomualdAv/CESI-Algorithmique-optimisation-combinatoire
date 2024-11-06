@@ -1,6 +1,13 @@
 ﻿import unittest
+import os
 from src.infrastructure.CSVManager import CsvManager
 from src.utils.error import CsvError
+
+
+def get_directory():
+    if "tests\\infrastructure" in str(os.getcwd()):
+        return "instances"
+    return "tests\\infrastructure\\instances"
 
 
 class TestCsvManager(unittest.TestCase):
@@ -10,9 +17,8 @@ class TestCsvManager(unittest.TestCase):
         data = [["column1", "column2", "column3"], ["value1", "value2", "value3"]]
         line = 1
         new_data = ["value4", "value5", "value6"]
-
         try:
-            test_manager = CsvManager("instances", rep,data)
+            test_manager = CsvManager(get_directory(), rep, data)
             test_manager.editLine(line, new_data)
             test_manager.delete()
             self.assertEqual(True, True)
@@ -25,7 +31,7 @@ class TestCsvManager(unittest.TestCase):
         rep = "csv-test.csv"
         line = 1
 
-        test_manager = CsvManager("instances", rep)
+        test_manager = CsvManager(get_directory(), rep)
         with self.assertRaises(CsvError):
             test_manager.readLine(line)
 
@@ -34,7 +40,7 @@ class TestCsvManager(unittest.TestCase):
         data = [["column1", "column2", "column3"], ["value1", "value2", "value3"]]
         line = 1
 
-        test_manager = CsvManager("instances", rep,data)
+        test_manager = CsvManager(get_directory(), rep,data)
         test_manager.delete()
         with self.assertRaises(CsvError):
             test_manager.readLine(line)
@@ -43,7 +49,7 @@ class TestCsvManager(unittest.TestCase):
         data = [["column1", "column2", "column3"], ["value1", "value2", "value3"]]
         line = 2
 
-        test_manager = CsvManager("instances", rep, data)
+        test_manager = CsvManager(get_directory(), rep, data)
 
         with self.assertRaises(CsvError):
             test_manager.readLine(line)
@@ -55,7 +61,7 @@ class TestCsvManager(unittest.TestCase):
         data = [["column1", "column2", "column3"], ["value1", "value2", "value3"]]
         line = 1
 
-        test_manager = CsvManager("instances", rep, data)
+        test_manager = CsvManager(get_directory(), rep, data)
         test_manager.readLine(line)
         test_manager.delete()
         self.assertTrue(True)
@@ -65,7 +71,7 @@ class TestCsvManager(unittest.TestCase):
         data = [[12, 12, 12], [12, 12, 12]]
         line = 1
 
-        test_manager = CsvManager("instances", rep, data)
+        test_manager = CsvManager(get_directory(), rep, data)
         test_manager.readLine(line)
         test_manager.delete()
         self.assertTrue(True)
@@ -76,7 +82,7 @@ class TestCsvManager(unittest.TestCase):
         line = 6
         new_data = ["value4", "value5", "value6"]
 
-        test_manager = CsvManager("instances", rep, data)
+        test_manager = CsvManager(get_directory(), rep, data)
 
         with self.assertRaises(CsvError):
             test_manager.editLine(line, new_data)

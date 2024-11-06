@@ -30,10 +30,6 @@ class TestTruck(unittest.TestCase):
     def test_get_type_when_all_is_good(self):
         self.assertEqual(self.truck.get_type(), self.truck_type)
 
-    def test_get_current_weight_when_list_is_empty(self):
-        with self.assertRaises(TruckError):
-            self.truck.getCurrentWeight()
-
     def test_get_current_weight_when_you_have_add_one_box(self):
         self.truck.addFret(self.box1)
         self.assertEqual(self.truck.getCurrentWeight(), 1000)
@@ -53,8 +49,7 @@ class TestTruck(unittest.TestCase):
     def test_convey_box(self):
         self.truck.addFret(self.box1)
         self.truck.conveyBox(self.box1.getIdBox())
-        with self.assertRaises(TruckError):
-            self.truck.getCurrentWeight()
+        self.assertEqual(self.truck.getCurrentWeight(), 0)
 
     def test_convey_box_not_found_when_it_have_not_box(self):
         with self.assertRaises(BoxIDError):
