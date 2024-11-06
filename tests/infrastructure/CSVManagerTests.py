@@ -60,6 +60,16 @@ class TestCsvManager(unittest.TestCase):
         test_manager.delete()
         self.assertTrue(True)
 
+    def test_csv_file_writing_when_the_data_isnt_string(self):
+        rep = "csv-test.csv"
+        data = [[12, 12, 12], [12, 12, 12]]
+        line = 1
+
+        test_manager = CsvManager("instances", rep, data)
+        test_manager.readLine(line)
+        test_manager.delete()
+        self.assertTrue(True)
+
     def test_csv_manipulation_when_one_param_isnt_good(self):
         rep = "csv-test.csv"
         data = [["column1", "column2", "column3"], ["value1", "value2", "value3"]]
