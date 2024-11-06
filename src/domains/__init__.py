@@ -2,5 +2,5 @@
 
 from .InstanceGenerator import *
 from .SortationAlgorithm import *
-from .random import *
+from .generator import *
 from .error import *

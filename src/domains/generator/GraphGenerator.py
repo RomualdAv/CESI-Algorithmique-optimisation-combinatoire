@@ -28,7 +28,7 @@ def generateGraph(nb_nodes: int, nb_edges: int, symmetric: bool) -> list[list[fl
     while index < nb_edges:
         # Get randomly two nodes
         node1, node2 = list_edges.pop(random.randint(0, len(list_edges) - 1))
-        # Generate a random weight for the edge
+        # Generate a generator weight for the edge
         if nb_edges-index != 1:
             if symmetric:
                 generateSymmetricWeight(graph, node1, node2)
@@ -79,7 +79,7 @@ def generateAsymmetricWeight(graph: list[list[float]], node1: int, node2: int) -
 
 def IsSmallWay() -> bool:
     """
-    Generate a random boolean to know if the way is small or not.
+    Generate a generator boolean to know if the way is small or not.
 
     Returns:
         bool: True if the way is small, False otherwise.
@@ -88,7 +88,7 @@ def IsSmallWay() -> bool:
 
 def GetSmallWay() -> int:
     """
-    Generate a random integer for a small way.
+    Generate a generator integer for a small way.
 
     Returns:
         int: The generated integer.
@@ -97,7 +97,7 @@ def GetSmallWay() -> int:
 
 def GetLongWay() -> int:
     """
-    Generate a random integer for a big way.
+    Generate a generator integer for a big way.
 
     Returns:
         int: The generated integer.

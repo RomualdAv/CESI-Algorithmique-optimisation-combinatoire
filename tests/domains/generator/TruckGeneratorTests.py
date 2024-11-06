@@ -1,5 +1,5 @@
 ﻿import unittest
-from src.domains.random.TruckGenerator import generate_truck, generate_box
+from src.domains.generator.TruckGenerator import generate_truck, generate_box
 from src import Truck, Size, TypeTruck, TypeBox
 
 

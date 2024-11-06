@@ -1,5 +1,5 @@
 ﻿import unittest
-from src.domains.random.GraphGenerator import *
+from src.domains.generator.GraphGenerator import *
 
 
 class GraphGeneratorCase(unittest.TestCase):
