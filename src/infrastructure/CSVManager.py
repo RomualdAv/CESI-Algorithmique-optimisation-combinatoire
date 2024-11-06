@@ -1,10 +1,11 @@
 import csv
 from os import path, remove
+from typing import Any
 
 from src.utils.error import CsvError
 
 class CsvManager:
-    def __init__(self,directory: str, filename: str, data: list[list[str]] = None):
+    def __init__(self,directory: str, filename: str, data: list[list[Any]] = None):
         """
         Constructor of the class
         :param directory: directory to the file
@@ -19,7 +20,7 @@ class CsvManager:
         if data is not None:
             self.__create__(data)
 
-    def __create__(self,data: list[list[str]]):
+    def __create__(self,data: list[list[Any]]):
         """
         Method that creates a csv file
 
