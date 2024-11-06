@@ -1,3 +1,4 @@
+from src.domains.SolutionChecker import is_solvable
 from src.utils.Box import Box
 from src.utils.Truck import Truck
 
@@ -11,7 +12,12 @@ class SortationAlgorithm:
         :param boxes: List of boxes to deliver.
         :param trucks: List of trucks to deliver the boxes.
         :param graph: Graphe représentant les distances entre les points de livraison.
+
+        :raises InstanceError: If the problem is not solvable.
         """
+
+        is_solvable(trucks, boxes, graph)
+
         self.boxes = boxes
         self.trucks = trucks
         self.graph = graph
