@@ -1,54 +1,44 @@
-import datetime
-import sys
-import uuid
-from typing import Dict, List
-sys.path.insert(0, '../src')
-import unittest
-from utils.Box import Box
-from utils.Truck import Truck
-from utils.Size import Size
-from utils.Depot import Depot
-from utils.TypeBox import TypeBox
-from utils.DeliveryWindow import DeliveryWindow
+from src.utils.Box import Box
+from src.utils.Truck import Truck
 
 
-class Load1:
+class SortationAlgorithm:
 
-    def __init__(self):
-        self.truck_box_types = {}
+    def __init__(self, boxes: list[Box], trucks: list[Truck], graph: list[list[float]]):
+        """
+        Constructeur de la classe SortationAlgorithm.
 
-    def sortByType(boxes:[Box]) -> dict:
+        :param boxes: List of boxes to deliver.
+        :param trucks: List of trucks to deliver the boxes.
+        :param graph: Graphe représentant les distances entre les points de livraison.
+        """
+        self.boxes = boxes
+        self.trucks = trucks
+        self.graph = graph
 
+    def sortByType(self) -> dict:
+        """
+        Sort the boxes by type.
+        """
         order = dict()  
-        for box in boxes:
-            box_type = box.getLocation()  
-        type_name = box_type.getName()  
-        # Vérifier si le type de boîte n'est pas dans le dictionnaire
-        if type_name not in order:
-            order[type_name] = []  
+        for box in self.boxes:
+            type_name = box.getType().name
+            # Check if the type of the box is already in the dictionary
+            if type_name not in order:
+                order[type_name] = []
         
-        # Ajouter la boîte à la liste correspondante
-        order[type_name].append(box)
+            # Add the box to the list of boxes of the same type
+            order[type_name].append(box)
     
-        return order  # Retourner le dictionnaire trié
+        return order
    
 
-    def sortboxtime (self, dict_boites: Dict[str, List['Box']]) -> Dict[str, List['Box']]:
-
+    def sortByTime (self, dict_boites: dict[str, list[Box]]) -> dict[str, list[Box]]:
+        """
+        Sort the boxes by delivery time.
+        """
         for key, boites in dict_boites.items():
           
             boites.sort(key=lambda box: (box.getEnd(), -box.getDuration().total_seconds()))
             
         return dict_boites
-    
-    def canLoadAllBoxes(boxes: [Box], trucks: [Truck]) -> bool:
-        total_box_volume = sum(box.getSize().getVolume() for box in boxes)  
-        total_truck_volume = sum(truck.get_size().getVolume() for truck in trucks)  
-    
-   
-        if total_box_volume <= total_truck_volume:
-            return True  
-        else:
-            return False  
-       
-
