@@ -17,15 +17,10 @@ class SortationAlgorithm:
         :raises InstanceError: If the problem is not solvable.
         """
 
-        is_solvable(trucks, boxes, graph)
-
         self.__boxes = boxes
         self.__trucks = trucks
         self.__graph = graph
         self.__dict_type = None
-
-        self.__sortByType__()
-        self.__checkContainability__()
 
     def __sortByType__(self) -> dict:
         """
@@ -70,6 +65,20 @@ class SortationAlgorithm:
     def getTruckLoaded(self) -> list[Truck]:
         """
         Return the list of trucks loaded.
+
+        :raises InstanceError: If the problem is not solvable.
         """
+        # Check if the problem is solvable
+        is_solvable(self.__trucks, self.__boxes, self.__graph)
+        # Sort the boxes by type
+        self.__sortByType__()
+        # Check if the boxes can be delivered by the trucks
+        self.__checkContainability__()
+
+        # Sort the boxes by decreasing coupling
+        for key,boxes in self.__dict_type.items():
+            boxes.sort(key=lambda box: box.getCoupling(), reverse=True)
+        # Sort the truck by crescent coupling
+        self.__trucks.sort(key=lambda truck: truck.getCoupling())
 
         return self.__trucks
