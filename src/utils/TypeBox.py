@@ -1,5 +1,4 @@
-﻿from enum import Enum
-from .TypeTruck import TypeTruck
+﻿from .TypeTruck import *
 
 class TypeBox(Enum):
     """
@@ -41,6 +40,13 @@ class TypeBox(Enum):
 
         return type_list
 
+    def getCoupling(self) -> int:
+        """
+        This function returns the coupling value of the box.
+        Greater are the coupling value, more the box is difficult to transport.
+        """
+        return len(listNotPossible[self.value])
+
     def __str__(self):
         return self.name
 
@@ -64,10 +70,3 @@ listNotPossible = (
         (TypeBox.FLAMMABLE, TypeBox.EXPLOSIVE, TypeBox.TOXIC, TypeBox.RADIOACTIVE, TypeBox.CORROSIVE,
          TypeBox.OXIDIZING, TypeBox.PRESSURIZED)
     )
-
-list_not_possible_truck = (
-            (TypeBox.ALIMENTAL,TypeBox.TOXIC, TypeBox.RADIOACTIVE, TypeBox.CORROSIVE,TypeBox.OXIDIZING),
-            (TypeBox.FLAMMABLE, TypeBox.EXPLOSIVE, TypeBox.TOXIC, TypeBox.RADIOACTIVE, TypeBox.CORROSIVE,TypeBox.OXIDIZING, TypeBox.PRESSURIZED),
-            (TypeBox.RADIOACTIVE,TypeBox.PRESSURIZED),
-            ()
-        )
