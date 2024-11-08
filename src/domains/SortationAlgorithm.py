@@ -23,12 +23,11 @@ class SortationAlgorithm:
         self.__trucks = trucks
         self.__graph = graph
         self.__dict_type = None
-        self.__dict_type_sorted = None
 
-        self.__dict_type = self.sortByType()
-        self.checkContainability()
+        self.__sortByType__()
+        self.__checkContainability__()
 
-    def sortByType(self) -> dict:
+    def __sortByType__(self) -> dict:
         """
         Sort the boxes by type.
         """
@@ -47,7 +46,7 @@ class SortationAlgorithm:
 
         return order
 
-    def checkContainability(self) -> bool:
+    def __checkContainability__(self) -> bool:
         """
         Check if the boxes can be delivered by the trucks.
         """
@@ -68,20 +67,9 @@ class SortationAlgorithm:
 
         return True
 
-    def sortByTime (self) -> dict[str, list[Box]]:
+    def getTruckLoaded(self) -> list[Truck]:
         """
-        Sort the boxes by delivery time.
+        Return the list of trucks loaded.
         """
 
-        if self.__dict_type_sorted is not None:
-            return self.__dict_type_sorted
-
-        dict_copy = self.__dict_type.copy()
-
-        for key, boites in dict_copy.items():
-
-            boites.sort(key=lambda box: (box.getEnd(), -box.getDuration().total_seconds()))
-
-        self.__dict_type_sorted = dict_copy
-
-        return dict_copy
+        return self.__trucks

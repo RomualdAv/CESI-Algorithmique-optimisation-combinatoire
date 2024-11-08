@@ -5,7 +5,7 @@ from src.utils import *
 
 class SolutionCheckerTests(unittest.TestCase):
     def test_should_check_containable_when_all_is_good(self):
-        depot = Depot(1,"depot",True, DeliveryWindow(datetime.datetime.now(), datetime.datetime.now()))
+        depot = Depot(1,"depot")
 
         list_boxes = [
             Box(uuid.uuid4(),depot,Size(10,10,10),TypeBox.NOTSPECIFY),
@@ -23,7 +23,7 @@ class SolutionCheckerTests(unittest.TestCase):
         self.assertTrue(is_containable(list_boxes,list_truck))
 
     def test_should_check_containable_when_you_have_too_many_boxes(self):
-        depot = Depot(1,"depot",True, DeliveryWindow(datetime.datetime.now(), datetime.datetime.now()))
+        depot = Depot(1,"depot")
 
         list_boxes = [
             Box(uuid.uuid4(),depot,Size(10,10,10),TypeBox.NOTSPECIFY),
@@ -41,9 +41,9 @@ class SolutionCheckerTests(unittest.TestCase):
         self.assertFalse(is_containable(list_boxes,list_truck))
 
     def test_should_check_reachability_when_all_is_good(self):
-        depot1 = Depot(0,"depot",True, DeliveryWindow(datetime.datetime.now(), datetime.datetime.now()))
-        depot2 = Depot(1, "depot", True, DeliveryWindow(datetime.datetime.now(), datetime.datetime.now()))
-        depot3 = Depot(2, "depot", True, DeliveryWindow(datetime.datetime.now(), datetime.datetime.now()))
+        depot1 = Depot(0,"depot")
+        depot2 = Depot(1, "depot")
+        depot3 = Depot(2, "depot")
 
         graph = [
             [0, 1, 0],
@@ -59,9 +59,9 @@ class SolutionCheckerTests(unittest.TestCase):
         self.assertTrue(is_reachable(list_boxes,graph))
 
     def test_should_check_reachability_when_we_cant_reach_vertex(self):
-        depot1 = Depot(0,"depot",True, DeliveryWindow(datetime.datetime.now(), datetime.datetime.now()))
-        depot2 = Depot(1, "depot", True, DeliveryWindow(datetime.datetime.now(), datetime.datetime.now()))
-        depot3 = Depot(3, "depot", True, DeliveryWindow(datetime.datetime.now(), datetime.datetime.now()))
+        depot1 = Depot(0,"depot")
+        depot2 = Depot(1, "depot")
+        depot3 = Depot(3, "depot")
 
         graph = [
             [0, 1, 0],
@@ -77,9 +77,9 @@ class SolutionCheckerTests(unittest.TestCase):
         self.assertFalse(is_reachable(list_boxes,graph))
 
     def test_should_check_solvable_when_all_is_good(self):
-        depot1 = Depot(0,"depot1",True, DeliveryWindow(datetime.datetime.now(), datetime.datetime.now()))
-        depot2 = Depot(1, "depot2", True, DeliveryWindow(datetime.datetime.now(), datetime.datetime.now()))
-        depot3 = Depot(2, "depot3", True, DeliveryWindow(datetime.datetime.now(), datetime.datetime.now()))
+        depot1 = Depot(0,"depot1")
+        depot2 = Depot(1, "depot2")
+        depot3 = Depot(2, "depot3")
 
         graph = [
             [0, 1, 0],
@@ -99,9 +99,9 @@ class SolutionCheckerTests(unittest.TestCase):
         self.assertTrue(is_solvable(list_truck,list_boxes,graph))
 
     def test_should_check_solvable_when_size_boxes_is_too_much(self):
-        depot1 = Depot(0,"depot1",True, DeliveryWindow(datetime.datetime.now(), datetime.datetime.now()))
-        depot2 = Depot(1, "depot2", True, DeliveryWindow(datetime.datetime.now(), datetime.datetime.now()))
-        depot3 = Depot(2, "depot3", True, DeliveryWindow(datetime.datetime.now(), datetime.datetime.now()))
+        depot1 = Depot(0,"depot1")
+        depot2 = Depot(1, "depot2")
+        depot3 = Depot(2, "depot3")
 
         graph = [
             [0, 1, 0],
@@ -122,9 +122,9 @@ class SolutionCheckerTests(unittest.TestCase):
             self.assertTrue(is_solvable(list_truck,list_boxes,graph))
 
     def test_should_check_solvable_when_one_box_is_not_reachable(self):
-        depot1 = Depot(0,"depot1",True, DeliveryWindow(datetime.datetime.now(), datetime.datetime.now()))
-        depot2 = Depot(1, "depot2", True, DeliveryWindow(datetime.datetime.now(), datetime.datetime.now()))
-        depot3 = Depot(7, "depot3", True, DeliveryWindow(datetime.datetime.now(), datetime.datetime.now()))
+        depot1 = Depot(0,"depot1")
+        depot2 = Depot(1, "depot2")
+        depot3 = Depot(7, "depot3")
 
         graph = [
             [0, 1, 0],
@@ -145,9 +145,9 @@ class SolutionCheckerTests(unittest.TestCase):
             self.assertTrue(is_solvable(list_truck, list_boxes, graph))
 
     def test_should_check_solvable_when_you_forgot_data(self):
-        depot1 = Depot(0,"depot1",True, DeliveryWindow(datetime.datetime.now(), datetime.datetime.now()))
-        depot2 = Depot(1, "depot2", True, DeliveryWindow(datetime.datetime.now(), datetime.datetime.now()))
-        depot3 = Depot(2, "depot3", True, DeliveryWindow(datetime.datetime.now(), datetime.datetime.now()))
+        depot1 = Depot(0,"depot1")
+        depot2 = Depot(1, "depot2")
+        depot3 = Depot(2, "depot3")
 
         graph = [
             [0, 1, 0],

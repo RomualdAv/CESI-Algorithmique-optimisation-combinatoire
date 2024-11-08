@@ -37,17 +37,13 @@ def generate_instance(directory: str, nb_nodes: int, nb_edges: int, symmetric: b
                                       truck.get_type().name])
         # Save the box
         header = [
-            ["Id", "Location_Depot", "Name_Depot", "Parking_Depot", "Start_Delivery_Window", "End_Delivery_Window", "Width",
-             "Height", "Length", "Type"]]
+            ["Id", "Location_Depot", "Name_Depot", "Width","Height", "Length", "Type"]]
         box_file = CsvManager(directory, "boxes_" + instance_id, header)
         for truck in trucks:
             for box in truck.get_fret():
                 box_file.addLine([box.getIdBox(),
                                         box.getDestination().getLocation(),
                                         box.getDestination().getName(),
-                                        box.getDestination().getPossibilityParking(),
-                                        box.getDestination().getDeliveryWindow().getStart(),
-                                        box.getDestination().getDeliveryWindow().getEnd(),
                                         box.getSize().get_width(),
                                         box.getSize().get_height(),
                                         box.getSize().get_length(),

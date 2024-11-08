@@ -1,13 +1,10 @@
-﻿import datetime
-import unittest
+﻿import unittest
 from uuid import uuid4
-from src.utils.DeliveryWindow import DeliveryWindow
 from src.utils.Depot import Depot
 from src.utils.Size import Size
-from src.utils.TypeTruck import TypeTruck
 from src.utils.TypeBox import *
 from src.utils.Box import Box
-from src.utils.error import TruckError, BoxIDError
+from src.utils.error import BoxIDError
 from src.utils.Truck import Truck
 
 class TestTruck(unittest.TestCase):
@@ -16,8 +13,8 @@ class TestTruck(unittest.TestCase):
         self.size = Size(100,100,100)
         self.truck_type = TypeTruck.PLATED
         self.truck = Truck("Truck 1", self.size, self.truck_type)
-        self.depot1 = Depot(1,"Lidl",True,DeliveryWindow(datetime.datetime(2023,12,1,8,0),datetime.datetime(2023,12,1,18,0)))
-        self.depot2 = Depot(2,"Test",False,DeliveryWindow(datetime.datetime(2023,12,1,8,0),datetime.datetime(2023,12,1,18,0)))
+        self.depot1 = Depot(1,"Lidl")
+        self.depot2 = Depot(2,"Test")
         self.box1 = Box(uuid4(), self.depot1,Size(10,10,10),TypeBox.FRAGILE)
         self.box2 = Box(uuid4(), self.depot2,Size(20,20,20),TypeBox.ALIMENTAL)
 

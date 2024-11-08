@@ -1,7 +1,6 @@
 # tests/utils/__init__.py
 
 from .BoxTests import *
-from .DeliveryWindowTests import *
 from .DepotTests import *
 from .ItineraryTests import *
 from .SizeTests import *

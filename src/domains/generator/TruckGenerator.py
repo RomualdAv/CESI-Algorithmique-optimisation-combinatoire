@@ -1,14 +1,11 @@
 ﻿import random
 import uuid
-import datetime
-
 from src.utils import Truck
 from src.utils import Box
 from src.utils import TypeTruck
 from src.utils import Size
 from src.utils import TypeBox
 from src.utils import Depot
-from src.utils import DeliveryWindow
 
 
 def generate_truck(nb_truck: int) -> list[Truck]:
@@ -48,9 +45,7 @@ def generate_box(truck: Truck,nb_nodes: int,start_node: int) -> None:
         while node == start_node:
             node = random.randint(0, nb_nodes-1)
 
-        date1 = datetime.datetime(2024, 1, 1, random.randint(0, 12), random.choice([0, 30]))
-        date2 = datetime.datetime(2024, 1, 1, random.randint(12, 23), random.choice([31, 59]))
-        depot = Depot(node, f"Depot_{node}", random.choice([True, False]), DeliveryWindow(date1, date2))
+        depot = Depot(node, f"Depot_{node}")
         # Generate a generator box
         id = uuid.uuid4()
         size = Size(random.randint(coef_min_width, coef_max_width), random.randint(coef_min_height, coef_max_height), random.randint(coef_min_length, coef_max_length))
