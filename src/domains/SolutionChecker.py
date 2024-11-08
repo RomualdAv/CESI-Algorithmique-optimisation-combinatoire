@@ -22,12 +22,15 @@ def is_solvable(camions: list[Truck], boites: list[Box], graph: list[list[float]
     elif not boites:
         raise InstanceError("Aucune boite")
 
+    elif not graph:
+        raise InstanceError("Aucun graphe")
+
     # Check if the total volume of the boxes is less than the total volume of the trucks
-    elif is_containable(boites, camions):
+    elif not is_containable(boites, camions):
         raise InstanceError("Volume total des boites supérieur au volume total des camions")
 
     # Check if the destination of the boxes is reachable by the trucks
-    elif is_reachable(boites, graph):
+    elif not is_reachable(boites, graph):
         raise InstanceError("Destination des boites non atteignable par les camions")
 
     return True

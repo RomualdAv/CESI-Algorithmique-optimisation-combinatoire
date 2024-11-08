@@ -2,3 +2,4 @@
 
 from .SortationAlgorithmTests import *
 from .generator import *
+from .SolutionCheckerTests import *
