@@ -4,6 +4,23 @@ from src.utils.Box import Box
 from src.utils.Truck import Truck
 
 
+def __find_same_depot__(truck: Truck, boxes: list[Box], new_box: Box):
+    """
+    Find the box that has the same depot as the box in parameter.
+
+    :param truck: The truck try to add boxes.
+    :param boxes: The list of boxes to load.
+    :param new_box: The box load.
+    """
+
+    for box in boxes:
+        if new_box.getDestination().getLocation() == box.getDestination().getLocation():
+            if truck.get_type() in box.getType().typeOfTruckToUse():
+                if truck.canContain(box):
+                    truck.addFret(box)
+                    boxes.remove(box)
+
+
 class SortationAlgorithm:
 
     def __init__(self, boxes: list[Box], trucks: list[Truck], graph: list[list[float]]):
@@ -68,6 +85,7 @@ class SortationAlgorithm:
 
         :raises InstanceError: If the problem is not solvable.
         """
+
         # Check if the problem is solvable
         is_solvable(self.__trucks, self.__boxes, self.__graph)
         # Sort the boxes by type
@@ -75,10 +93,26 @@ class SortationAlgorithm:
         # Check if the boxes can be delivered by the trucks
         self.__checkContainability__()
 
+        # Check if the problem is solved
+        if self.__trucks[0].getCurrentWeight() != 0:
+            return self.__trucks
+
         # Sort the boxes by decreasing coupling
         for key,boxes in self.__dict_type.items():
             boxes.sort(key=lambda box: box.getCoupling(), reverse=True)
         # Sort the truck by crescent coupling
         self.__trucks.sort(key=lambda truck: truck.getCoupling())
+
+        #Load truck
+        for truck in self.__trucks:
+            for key,boxes in self.__dict_type.items():
+                for box in boxes:
+                    if truck.get_type() in box.getType().typeOfTruckToUse():
+                        if truck.canContain(box):
+                            truck.addFret(box)
+                            boxes.remove(box)
+                            __find_same_depot__(truck, boxes, box)
+
+        #Check if all boxes are loaded in the trucks
 
         return self.__trucks
