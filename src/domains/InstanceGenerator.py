@@ -25,7 +25,7 @@ def generate_instance(directory: str, nb_nodes: int, nb_edges: int, symmetric: b
     try:
         # Save the instance
         # Save the graph
-        graph_file = CsvManager(directory, "graph_" + instance_id + ".csv", graph)
+        CsvManager(directory, "graph_" + instance_id + ".csv", graph)
         # Save the trucks
         header = [["Name", "Width", "Height", "Length", "Type"]]
         truck_file = CsvManager(directory, "trucks_" + instance_id, header)
@@ -41,13 +41,13 @@ def generate_instance(directory: str, nb_nodes: int, nb_edges: int, symmetric: b
         box_file = CsvManager(directory, "boxes_" + instance_id, header)
         for truck in trucks:
             for box in truck.get_fret():
-                box_file.addLine([box.getIdBox(),
-                                        box.getDestination().getLocation(),
-                                        box.getDestination().getName(),
-                                        box.getSize().get_width(),
-                                        box.getSize().get_height(),
-                                        box.getSize().get_length(),
-                                        box.getType().name])
+                box_file.addLine([box.get_id_box(),
+                                  box.get_destination().get_location(),
+                                  box.get_destination().get_name(),
+                                  box.get_size().get_width(),
+                                  box.get_size().get_height(),
+                                  box.get_size().get_length(),
+                                  box.get_type().name])
     except CsvError as e:
         raise InstanceError(f"Error while saving the instance: {e}")
 

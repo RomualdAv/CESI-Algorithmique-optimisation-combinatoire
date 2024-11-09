@@ -43,7 +43,7 @@ def is_reachable(boites: list[Box], graph: list[list[float]]) -> bool:
     :param graph: graph representing a map
     """
     for box in boites:
-        if box.getDestination().getLocation() not in range(len(graph)):
+        if box.get_destination().get_location() not in range(len(graph)):
             return False
 
     return True
@@ -52,7 +52,7 @@ def is_containable(boxs: list[Box], trucks: list[Truck]) -> bool:
     """
     This function checks if the total volume of the boxes is less than the total volume of the trucks
     """
-    volume_total_boites = sum(box.getSize().getVolume() for box in boxs)
+    volume_total_boites = sum(box.get_size().getVolume() for box in boxs)
     volume_total_truck = sum(truck.get_size().getVolume() for truck in trucks)
 
     if volume_total_boites > volume_total_truck:

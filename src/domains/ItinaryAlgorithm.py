@@ -9,7 +9,7 @@ def boxDeliveryWindowSorting(truck: Truck) -> list[Box]:
         truck (Truck): The truck containing the boxes to be sorted
     """
     boxes = truck.get_fret()
-    boxes = sorted(boxes, key=lambda x: x.getDestination().getDeliveryWindow().getEnd())
+    boxes = sorted(boxes, key=lambda x: x.get_destination().getDeliveryWindow().getEnd())
     return boxes
 
 def createMatrixItinerary(graph: list[list[float]]) -> list[list[Itinerary]]:
@@ -44,6 +44,6 @@ def chainWaypointSorting(boxes: list[Box],distance: [],starting_depot: int) -> [
     index = 0
     now_point = starting_depot
     while len(ways) < len(boxes):
-        next_point = boxes[index].getDestination().getLocation()
+        next_point = boxes[index].get_destination().get_location()
         ways.append(distance[now_point][next_point])
     return ways

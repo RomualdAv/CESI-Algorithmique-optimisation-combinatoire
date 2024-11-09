@@ -3,7 +3,7 @@ import unittest
 from src.utils.Box import Box
 from src.utils.Size import Size
 from src.utils.Depot import Depot
-from src.utils.TypeBox import TypeBox
+from src.utils.Types import TypeBox
 
 class TestBox(unittest.TestCase):
 

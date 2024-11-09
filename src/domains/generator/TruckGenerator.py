@@ -1,11 +1,6 @@
 ﻿import random
 import uuid
-from src.utils import Truck
-from src.utils import Box
-from src.utils import TypeTruck
-from src.utils import Size
-from src.utils import TypeBox
-from src.utils import Depot
+from src.utils import Truck,Box,Size,TypeTruck,TypeBox,Depot
 
 
 def generate_truck(nb_truck: int) -> list[Truck]:
@@ -47,10 +42,10 @@ def generate_box(truck: Truck,nb_nodes: int,start_node: int) -> None:
 
         depot = Depot(node, f"Depot_{node}")
         # Generate a generator box
-        id = uuid.uuid4()
+        id_box = uuid.uuid4()
         size = Size(random.randint(coef_min_width, coef_max_width), random.randint(coef_min_height, coef_max_height), random.randint(coef_min_length, coef_max_length))
-        if truck.get_size().getVolume() < truck.getCurrentWeight()+size.getVolume():
-            whp = truck.get_size().getVolume() - truck.getCurrentWeight()//3
+        if truck.get_size().getVolume() < truck.get_current_weight()+size.getVolume():
+            whp = truck.get_size().getVolume() - truck.get_current_weight() // 3
             # Check if the box is less or equal to 4% of the truck size volume for stop iteration
             if whp <= (truck.get_size().getVolume()/100)*4:
                 break
@@ -67,9 +62,9 @@ def generate_box(truck: Truck,nb_nodes: int,start_node: int) -> None:
                 box_type = random.choice([TypeBox.NOTSPECIFY, TypeBox.ALIMENTAL, TypeBox.FLAMMABLE, TypeBox.EXPLOSIVE, TypeBox.TOXIC, TypeBox.RADIOACTIVE, TypeBox.CORROSIVE, TypeBox.OXIDIZING, TypeBox.PRESSURIZED,TypeBox.FRAGILE])
             case _:
                 box_type = TypeBox.NOTSPECIFY
-        box = Box(id,depot ,size, box_type)
-        truck.addFret(box)
+        box = Box(id_box,depot ,size, box_type)
+        truck.add_fret(box)
 
         # Check if the truck is full
-        if truck.isFull():
+        if truck.is_full():
             break

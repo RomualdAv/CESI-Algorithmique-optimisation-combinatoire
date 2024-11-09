@@ -1,11 +1,8 @@
 ﻿import unittest
 from uuid import uuid4
-from src.utils.Depot import Depot
-from src.utils.Size import Size
-from src.utils.TypeBox import *
-from src.utils.Box import Box
-from src.utils.error import BoxIDError
-from src.utils.Truck import Truck
+from src.utils.Depot import *
+from src.utils.Types import *
+from src.utils.Truck import *
 
 class TestTruck(unittest.TestCase):
 
@@ -28,41 +25,41 @@ class TestTruck(unittest.TestCase):
         self.assertEqual(self.truck.get_type(), self.truck_type)
 
     def test_get_current_weight_when_you_have_add_one_box(self):
-        self.truck.addFret(self.box1)
-        self.assertEqual(self.truck.getCurrentWeight(), 1000)
-        self.truck.conveyBox(self.box1.getIdBox())
+        self.truck.add_fret(self.box1)
+        self.assertEqual(self.truck.get_current_weight(), 1000)
+        self.truck.convey_box(self.box1.get_id_box())
 
     def test_fret_contain_box1_when_its_in(self):
-        self.truck.addFret(self.box1)
-        self.assertTrue(self.truck.canContain(self.box1))
-        self.truck.conveyBox(self.box1.getIdBox())
+        self.truck.add_fret(self.box1)
+        self.assertTrue(self.truck.can_contain(self.box1))
+        self.truck.convey_box(self.box1.get_id_box())
 
     def test_truck_is_full_when_its_full(self):
         uuid = uuid4()
-        self.truck.addFret(Box(uuid,self.depot1, Size(100,100,100),TypeBox.ALIMENTAL))
-        self.assertTrue(self.truck.isFull())
-        self.truck.conveyBox(uuid)
+        self.truck.add_fret(Box(uuid,self.depot1, Size(100,100,100),TypeBox.ALIMENTAL))
+        self.assertTrue(self.truck.is_full())
+        self.truck.convey_box(uuid)
 
     def test_convey_box(self):
-        self.truck.addFret(self.box1)
-        self.truck.conveyBox(self.box1.getIdBox())
-        self.assertEqual(self.truck.getCurrentWeight(), 0)
+        self.truck.add_fret(self.box1)
+        self.truck.convey_box(self.box1.get_id_box())
+        self.assertEqual(self.truck.get_current_weight(), 0)
 
     def test_convey_box_not_found_when_it_have_not_box(self):
         with self.assertRaises(BoxIDError):
-            self.truck.conveyBox(uuid4())
+            self.truck.convey_box(uuid4())
 
     def test_add_fret(self):
-        self.truck.addFret(self.box1)
-        self.truck.addFret(self.box2)
-        self.assertEqual(self.truck.getCurrentWeight(), 9000)
-        self.truck.conveyBox(self.box1.getIdBox())
-        self.truck.conveyBox(self.box2.getIdBox())
+        self.truck.add_fret(self.box1)
+        self.truck.add_fret(self.box2)
+        self.assertEqual(self.truck.get_current_weight(), 9000)
+        self.truck.convey_box(self.box1.get_id_box())
+        self.truck.convey_box(self.box2.get_id_box())
 
     def test_add_fret_when_its_already_set(self):
-        self.truck.addFret(self.box1)
-        self.truck.addFret(self.box1)
-        self.assertEqual(self.truck.getCurrentWeight(), 1000)
+        self.truck.add_fret(self.box1)
+        self.truck.add_fret(self.box1)
+        self.assertEqual(self.truck.get_current_weight(), 1000)
 
 if __name__ == '__main__':
     unittest.main()
