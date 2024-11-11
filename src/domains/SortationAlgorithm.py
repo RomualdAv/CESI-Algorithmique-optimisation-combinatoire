@@ -2,7 +2,7 @@ from src.domains import InstanceError
 from src.domains.SolutionChecker import is_solvable
 from src.utils.Box import Box
 from src.utils.Truck import Truck
-from src.utils.Types import typeOfTruckToUse
+from src.utils.Types import typeOfTruckToUse, getTruckCoupling, getBoxCoupling
 
 
 def __find_same_depot__(truck: Truck, boxes: list[Box], new_box: Box):
@@ -46,13 +46,13 @@ class SortationAlgorithm:
         """
         if len(self.__dict_type) != 0:
             return self.__dict_type
-        order = dict()  
+        order = dict()
         for box in self.__boxes:
             type_name = box.get_type().name
             # Check if the type of the box is already in the dictionary
             if type_name not in order:
                 order[type_name] = []
-        
+
             # Add the box to the list of boxes of the same type
             order[type_name].append(box)
         self.__dict_type = order
@@ -79,7 +79,8 @@ class SortationAlgorithm:
                     list_type.remove(type_box_name)
 
         if len(list_type) > 0:
-            raise InstanceError("The boxes can't be delivered by the trucks because the truck types are not compatible with the box types.")
+            raise InstanceError(
+                "The boxes can't be delivered by the trucks because the truck types are not compatible with the box types.")
 
         return True
 
@@ -102,21 +103,32 @@ class SortationAlgorithm:
             return self.__trucks
 
         # Sort the boxes by decreasing coupling
-        for key,boxes in self.__dict_type.items():
-            boxes.sort(key=lambda box: box.getCoupling(), reverse=True)
+        for key, boxes in self.__dict_type.items():
+            boxes.sort(key=lambda box: getBoxCoupling(box.get_type()), reverse=True)
         # Sort the truck by crescent coupling
-        self.__trucks.sort(key=lambda truck: truck.getCoupling())
+        self.__trucks.sort(key=lambda truck: getTruckCoupling(truck.get_type()))
 
         #Load truck
+        keys_delete = []
         for truck in self.__trucks:
-            for key,boxes in self.__dict_type.items():
+            for key in keys_delete:
+                del self.__dict_type[key]
+            keys_delete = []
+            for key, boxes in self.__dict_type.items():
                 for box in boxes:
-                    if truck.get_type() in box.get_type().typeOfTruckToUse():
+                    if truck.get_type() in typeOfTruckToUse(box.get_type()):
                         if truck.can_contain(box):
                             truck.add_fret(box)
                             boxes.remove(box)
                             __find_same_depot__(truck, boxes, box)
+                    if len(boxes) == 0:
+                        keys_delete.append(key)
+                        break
+                if truck.is_full():
+                    break
 
         #Check if all boxes are loaded in the trucks
+        if len(self.__dict_type) != 0:
+            raise InstanceError("The boxes can't be delivered by the trucks because the boxes can't be loaded in the trucks")
 
         return self.__trucks

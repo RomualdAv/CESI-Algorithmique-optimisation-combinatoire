@@ -20,6 +20,7 @@ class SortationAlgorithmTests(unittest.TestCase):
         self.truck1 = Truck("Truck1", Size(3,3,6), TypeTruck.REFRIGERATE)
         self.truck2 = Truck("Truck2", Size(2,2,4), TypeTruck.OPEN)
         self.truck3 = Truck("Truck3", Size(1, 1, 1), TypeTruck.PLATED)
+        self.truck4 = Truck("Truck4", Size(3, 3, 8), TypeTruck.WATERTIGHT)
         self.graph = [[0, 1, 1],
                       [1, 0, 0],
                       [1, 0, 0]]
@@ -53,7 +54,8 @@ class SortationAlgorithmTests(unittest.TestCase):
             algorithm._SortationAlgorithm__checkContainability()
 
     def test_get_truck_loaded(self):
-        algorithm = SortationAlgorithm([self.box1, self.box2, self.box3, self.box4,self.box5,self.box6,self.box7], [self.truck1, self.truck2], self.graph)
+        algorithm = SortationAlgorithm([self.box1, self.box2, self.box3, self.box4,self.box5,self.box6,self.box7], [self.truck1, self.truck4], self.graph)
+
         loaded_trucks = algorithm.getTruckLoaded()
         self.assertGreater(len(loaded_trucks), 0)
         self.assertTrue(all(truck.get_current_weight() > 0 for truck in loaded_trucks))
