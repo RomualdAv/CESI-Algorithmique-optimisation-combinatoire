@@ -1,6 +1,6 @@
 from uuid import UUID
 from .Size import Size
-from .Types import TypeTruck
+from .Types import TypeTruck, is_compatible
 from .Box import Box
 from .error import BoxIDError
 
@@ -56,9 +56,13 @@ class Truck:
     def can_contain(self, box:Box) -> bool:
         """
         Method that return a boolean value to know if a box size < truck capacity
+        and the different boxes types are compatible
 
         :param box: Box object to check if it can be contained in the truck
         """
+        for box_fret in self.__fret:
+            if not is_compatible(box.get_type(), box_fret.get_type()):
+                return False
         return box.get_size().getVolume() <= (self.__size.getVolume() - self.get_current_weight())
 
     def is_full(self) -> bool:

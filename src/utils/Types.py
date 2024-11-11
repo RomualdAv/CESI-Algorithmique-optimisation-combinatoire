@@ -63,6 +63,17 @@ list_coupling_boxes = (
          TypeBox.OXIDIZING, TypeBox.PRESSURIZED)
     )
 
+def is_compatible(type_box1: TypeBox, type_box2: TypeBox) -> bool:
+    """
+    This function returns a boolean value to know if the two boxes are compatible.
+
+    :param type_box1: The type of the first box.
+    :param type_box2: The type of the second box.
+
+    :return bool: True if the two boxes are compatible.
+    """
+    return type_box1 not in list_coupling_boxes[type_box2.value]
+
 def getTruckCoupling(type_truck: TypeTruck) -> int:
     """
     This function returns the coupling value of the truck.

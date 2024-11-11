@@ -102,9 +102,10 @@ class SortationAlgorithm:
         if self.__trucks[0].get_current_weight() != 0:
             return self.__trucks
 
-        # Sort the boxes by decreasing coupling
-        for key, boxes in self.__dict_type.items():
-            boxes.sort(key=lambda box: getBoxCoupling(box.get_type()), reverse=True)
+        types_keys = list(self.__dict_type.keys())
+
+        # Sort the type boxes by decreasing coupling
+        types_keys.sort(key=lambda key: getBoxCoupling(self.__dict_type[key][0].get_type()), reverse=True)
         # Sort the truck by crescent coupling
         self.__trucks.sort(key=lambda truck: getTruckCoupling(truck.get_type()))
 
@@ -112,9 +113,10 @@ class SortationAlgorithm:
         keys_delete = []
         for truck in self.__trucks:
             for key in keys_delete:
-                del self.__dict_type[key]
+                types_keys.remove(key)
             keys_delete = []
-            for key, boxes in self.__dict_type.items():
+            for key in types_keys:
+                boxes = self.__dict_type[key]
                 for box in boxes:
                     if truck.get_type() in typeOfTruckToUse(box.get_type()):
                         if truck.can_contain(box):
