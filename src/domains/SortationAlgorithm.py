@@ -2,7 +2,7 @@ from src.domains import InstanceError
 from src.domains.SolutionChecker import is_solvable
 from src.utils.Box import Box
 from src.utils.Truck import Truck
-from src.utils.Types import typeOfTruckToUse, getTruckCoupling, getBoxCoupling
+from src.utils.Types import typeOfTruckToUse, getTruckCoupling, getBoxCoupling, is_compatible, TypeBox
 
 
 def __find_same_depot__(truck: Truck, boxes: list[Box], new_box: Box):
@@ -112,8 +112,7 @@ class SortationAlgorithm:
         #Load truck
         keys_delete = []
         for truck in self.__trucks:
-            for key in keys_delete:
-                types_keys.remove(key)
+            types_keys.remove(keys_delete)
             keys_delete = []
             for key in types_keys:
                 boxes = self.__dict_type[key]
@@ -129,7 +128,45 @@ class SortationAlgorithm:
                 if truck.is_full():
                     break
 
-        #Check if all boxes are loaded in the trucks
+        self.__reorganize_trucks(types_keys)
+
+        return self.__trucks
+
+    def __remove_incompatible_boxes(self, truck: Truck, box_type: TypeBox, types_remaining: list[str]):
+        """
+        Remove incompatible boxes from the truck to make space for a box of the given type.
+
+        :param truck: The truck from which to remove incompatible boxes.
+        :param box_type: The type of the box that needs to be loaded.
+        :param types_remaining: The types of boxes that couldn't be loaded initially.
+        """
+        incompatible_boxes = [box for box in truck.get_fret() if not is_compatible(box.get_type(), box_type)]
+        for box in incompatible_boxes:
+            truck.convey_box(box.get_id_box())
+            type_name = box.get_type().name
+
+            if type_name not in self.__dict_type:
+                self.__dict_type[type_name] = []
+                types_remaining.append(type_name)
+                types_remaining.sort(key=lambda key: getBoxCoupling(self.__dict_type[key][0].get_type()), reverse=True)
+
+            self.__dict_type[type_name].append(box)
+
+    def __reorganize_trucks(self, types_remaining: list[str]):
+        """
+        Reorganize the trucks to load the boxes that couldn't be loaded initially.
+
+        :param types_remaining: The types of boxes that couldn't be loaded initially.
+        """
+        for key in types_remaining:
+            for box in self.__dict_type[key]:
+                for truck in [truck for truck in self.__trucks if truck.get_type() in typeOfTruckToUse(box.get_type())]:
+                    self.__remove_incompatible_boxes(truck, box.get_type(),types_remaining)
+                    if truck.can_contain(box):
+                        truck.add_fret(box)
+                        self.__dict_type[key].remove(box)
+                        break
+
         if len(self.__dict_type) != 0:
             raise InstanceError("The boxes can't be delivered by the trucks because the boxes can't be loaded in the trucks")
 
