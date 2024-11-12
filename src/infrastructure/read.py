@@ -13,14 +13,14 @@ def readObjectSinceCsv(csv_manager, type_objet):
     objets = []
     try:
         # Lire toutes les lignes du fichier CSV
-        ligne_index = 0
+        ligne_index = 0 
         while True:
             try:
                 # Lecture d'une ligne à l'index actuel
                 ligne = csv_manager.readLine(ligne_index)
                 if ligne_index == 0:
                     # Ignorer l'en-tête
-                    ligne_index += 1
+                    ligne_index += 1 
                     continue
                 if type_objet == Box:
                     objet = Box(
