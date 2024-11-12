@@ -1,5 +1,5 @@
 ﻿from src.domains.generator import *
-from src.infrastructure.CSVManager import *
+from src.infrastructure.CSVManager import CsvManager
 from src.domains.error import InstanceError
 
 
@@ -48,8 +48,8 @@ def generate_instance(directory: str, nb_nodes: int, nb_edges: int, symmetric: b
                                   box.get_size().get_height(),
                                   box.get_size().get_length(),
                                   box.get_type().name])
-    except CsvError as e:
+    except Exception as e:
         raise InstanceError(f"Error while saving the instance: {e}")
 
 if __name__ == "__main__":
-    generate_instance("../infrastructure/instances", 10, 20, True, 2)
+    generate_instance("../infrastructure/instances", 500, 150000, True, 4)

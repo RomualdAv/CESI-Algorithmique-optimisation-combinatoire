@@ -1,6 +1,6 @@
 ﻿import uuid
 
-from src import CsvManager, Truck, CsvError, Size, TypeTruck, Depot, Box, TypeBox
+from src import CsvManager, Truck, Size, TypeTruck, Depot, Box, TypeBox
 
 
 class InstanceLoader:
@@ -17,6 +17,7 @@ class InstanceLoader:
         self.boxes_file = CsvManager(directory, "boxes_" + instance_id + ".csv")
 
     def get_trucks(self) -> list[Truck]:
+        from src import CsvError
         """
         This method reads the trucks from the file and returns them as a list of Truck objects
 
@@ -55,6 +56,7 @@ class InstanceLoader:
             return trucks
 
     def get_boxes(self) -> list[Box]:
+        from src import CsvError
         """
         This method reads the boxes from the file and returns them as a list of Box objects
 
@@ -106,6 +108,7 @@ class InstanceLoader:
             return boxes
 
     def get_graph(self) -> list[list[float]]:
+        from src import CsvError
         """
         This method reads the trucks from the file and returns them as a list of Truck objects
 
