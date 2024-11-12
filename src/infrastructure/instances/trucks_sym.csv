@@ -1,0 +1,6 @@
+Name,Width,Height,Length,Type
+Truck_1,82,13,54,OPEN
+Truck_2,67,21,24,REFRIGERATE
+Truck_3,72,90,22,REFRIGERATE
+Truck_4,21,23,72,PLATED
+Truck_5,79,93,77,PLATED
