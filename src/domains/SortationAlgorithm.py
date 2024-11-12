@@ -1,5 +1,4 @@
 from src.domains import InstanceError
-from src.domains.SolutionChecker import is_solvable
 from src.utils.Box import Box
 from src.utils.Truck import Truck
 from src.utils.Types import typeOfTruckToUse, getTruckCoupling, getBoxCoupling, is_compatible, TypeBox
