@@ -24,7 +24,8 @@ def generateGraph(nb_nodes: int, nb_edges: int, symmetric: bool) -> list[list[fl
     start = 1
     for i in range(nb_nodes):
         for j in range(start, nb_nodes):
-            list_edges.append((i, j))
+            if i != j:
+                list_edges.append((i, j))
         start += 1
 
     # Add randomly nb_edges edges to the graph
