@@ -123,19 +123,22 @@ class SortationAlgorithm:
             loaded_trucks.append(truck)
 
         # Step 5: Reorganize if necessary
-        for truck in loaded_trucks:
-            for type_name, boxes_of_type in list(boxes_by_type.items()):
-                if truck.get_type() in typeOfTruckToUse(boxes_of_type[0].get_type()):
-                    for box in boxes_of_type[:]:
-                        if truck.can_contain(box):
-                            truck.add_fret(box)
-                            boxes_of_type.remove(box)
-                        if not boxes_of_type:
-                            del boxes_by_type[type_name]
-                            break
+        limit = len(self.__boxes)
+        while remaining_boxes or limit:
+            for truck in loaded_trucks:
+                for type_name, boxes_of_type in list(boxes_by_type.items()):
+                    if truck.get_type() in typeOfTruckToUse(boxes_of_type[0].get_type()):
+                        for box in boxes_of_type[:]:
+                            if truck.can_contain(box):
+                                truck.add_fret(box)
+                                boxes_of_type.remove(box)
+                            if not boxes_of_type:
+                                del boxes_by_type[type_name]
+                                break
 
-        # Step 6: Check for remaining boxes
-        remaining_boxes = [box for boxes_of_type in boxes_by_type.values() for box in boxes_of_type]
+            # Step 6: Check for remaining boxes
+            remaining_boxes = [box for boxes_of_type in boxes_by_type.values() for box in boxes_of_type]
+            limit -= 1
 
         # Step 7: Raise error if boxes remain
         if remaining_boxes:
