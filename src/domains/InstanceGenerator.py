@@ -28,7 +28,7 @@ def generate_instance(directory: str, nb_nodes: int, nb_edges: int, symmetric: b
         CsvManager(directory, "graph_" + instance_id + ".csv", graph)
         # Save the trucks
         header = [["Name", "Width", "Height", "Length", "Type"]]
-        truck_file = CsvManager(directory, "trucks_" + instance_id, header)
+        truck_file = CsvManager(directory, "trucks_" + instance_id+".csv", header)
         for truck in trucks:
             truck_file.addLine([truck.get_name(),
                                       truck.get_size().get_width(),
@@ -38,7 +38,7 @@ def generate_instance(directory: str, nb_nodes: int, nb_edges: int, symmetric: b
         # Save the box
         header = [
             ["Id", "Location_Depot", "Name_Depot", "Width","Height", "Length", "Type"]]
-        box_file = CsvManager(directory, "boxes_" + instance_id, header)
+        box_file = CsvManager(directory, "boxes_" + instance_id+".csv", header)
         for truck in trucks:
             for box in truck.get_fret():
                 box_file.addLine([box.get_id_box(),
