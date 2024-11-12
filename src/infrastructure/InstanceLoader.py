@@ -54,7 +54,7 @@ class InstanceLoader:
             # When the end of the file is reached, the CsvError exception is raised
             return trucks
 
-    def get_box(self) -> list[Box]:
+    def get_boxes(self) -> list[Box]:
         """
         This method reads the boxes from the file and returns them as a list of Box objects
 
