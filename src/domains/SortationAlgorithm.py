@@ -1,25 +1,6 @@
 from src.domains import InstanceError
-from src.utils.Box import Box
-from src.utils.Truck import Truck
+from src.utils import Box, Truck
 from src.utils.Types import typeOfTruckToUse, getTruckCoupling, getBoxCoupling, is_compatible, TypeBox
-
-
-def __find_same_depot__(truck: Truck, boxes: list[Box], new_box: Box):
-    """
-    Find the box that has the same depot as the box in parameter.
-
-    :param truck: The truck try to add boxes.
-    :param boxes: The list of boxes to load.
-    :param new_box: The box load.
-    """
-
-    for box in boxes:
-        if new_box.get_destination().get_location() == box.get_destination().get_location():
-            if truck.get_type() in typeOfTruckToUse(box.get_type()):
-                if truck.can_contain(box):
-                    truck.add_fret(box)
-                    boxes.remove(box)
-
 
 class SortationAlgorithm:
 
@@ -118,13 +99,13 @@ class SortationAlgorithm:
         remaining_boxes = self.__boxes.copy()
 
         # Step 2: Sort trucks by capacity and types compatible (ascending order of priority)
-        self.__trucks.sort(key=lambda truck: (truck.get_size().getVolume(), getTruckCoupling(truck.get_type())))
+        self.__trucks.sort(key=lambda raw_truck: (raw_truck.get_size().getVolume(), getTruckCoupling(raw_truck.get_type())))
 
         # Step 3: Sort boxes by type and loading priorities (descending order of coupling)
         boxes_by_type = self.__sortByType()
 
         for type_name in boxes_by_type:
-            boxes_by_type[type_name].sort(key=lambda box: getBoxCoupling(box.get_type()), reverse=True)
+            boxes_by_type[type_name].sort(key=lambda raw_box: getBoxCoupling(raw_box.get_type()), reverse=True)
 
         # Step 4: Load trucks
         for truck in self.__trucks:

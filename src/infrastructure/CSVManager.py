@@ -1,8 +1,8 @@
-import csv
+from csv import writer, reader
 from os import path, remove
 from typing import Any
 
-from src.utils.error import CsvError
+from src.infrastructure.error import CsvError
 
 class CsvManager:
     def __init__(self,directory: str, filename: str, data: list[list[Any]] = None):
@@ -30,7 +30,7 @@ class CsvManager:
         """
         try:
             with open(f"{self.directory}", mode='w', newline='', encoding='utf-8') as f:
-                csv.writer(f).writerows(data)
+                writer(f).writerows(data)
         except OSError:
             raise CsvError(f"Error while creating csv file in repository : {self.directory}")
 
@@ -45,8 +45,8 @@ class CsvManager:
         """
         try:
             with open(self.directory, mode='r', newline='', encoding='utf-8') as f:
-                reader = csv.reader(f)
-                for current, l in enumerate(reader):
+                reader_data = reader(f)
+                for current, l in enumerate(reader_data):
                     if current == line:
                         return l
                 raise CsvError(f"Line number {line} does not exist in the file: {self.filename}.")
@@ -63,17 +63,16 @@ class CsvManager:
         :raises CsvError: if the line number does not exist in the file
         :raises CsvError: if the file cannot be edited
         """
-        data = []
         try:
             with open(self.directory, mode='r', newline='', encoding='utf-8') as f:
-                reader = csv.reader(f)
-                data = list(reader)
+                reader_data = reader(f)
+                data = list(reader_data)
             if line < 0 or line >= len(data):
                 raise CsvError(f"Line number {line} does not exist in the file: {self.filename}.")
             data[line] = new_line
             with open(self.directory, mode='w', newline='', encoding='utf-8') as f:
-                writer = csv.writer(f)
-                writer.writerows(data)
+                writer_data = writer(f)
+                writer_data.writerows(data)
         except OSError:
             raise CsvError(f"Error while attempting to edit csv file: {self.filename}")
 
@@ -85,15 +84,14 @@ class CsvManager:
 
         :raises CsvError: if the file cannot be modified
         """
-        data = []
         try:
             with open(self.directory, mode='r', newline='', encoding='utf-8') as f:
-                reader = csv.reader(f)
-                data = list(reader)
+                reader_data = reader(f)
+                data = list(reader_data)
             data.append(line)
             with open(self.directory, mode='w', newline='', encoding='utf-8') as f:
-                writer = csv.writer(f)
-                writer.writerows(data)
+                writer_data = writer(f)
+                writer_data.writerows(data)
         except OSError:
             raise CsvError(f"Error while attempting to modified csv file: {self.filename}")
 
