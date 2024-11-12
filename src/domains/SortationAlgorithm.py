@@ -110,11 +110,8 @@ class SortationAlgorithm:
         self.__trucks.sort(key=lambda truck: getTruckCoupling(truck.get_type()))
 
         #Load truck
-        keys_delete = []
         for truck in self.__trucks:
-            types_keys.remove(keys_delete)
-            keys_delete = []
-            for key in types_keys:
+            for key in types_keys[:]:
                 boxes = self.__dict_type[key]
                 for box in boxes:
                     if truck.get_type() in typeOfTruckToUse(box.get_type()):
@@ -123,7 +120,7 @@ class SortationAlgorithm:
                             boxes.remove(box)
                             __find_same_depot__(truck, boxes, box)
                     if len(boxes) == 0:
-                        keys_delete.append(key)
+                        types_keys.remove(key)
                         break
                 if truck.is_full():
                     break
@@ -158,13 +155,18 @@ class SortationAlgorithm:
 
         :param types_remaining: The types of boxes that couldn't be loaded initially.
         """
+        truck_not_rework = self.__trucks.copy()
         for key in types_remaining:
-            for box in self.__dict_type[key]:
-                for truck in [truck for truck in self.__trucks if truck.get_type() in typeOfTruckToUse(box.get_type())]:
+            if len(self.__dict_type[key]) == 0:
+                del self.__dict_type[key]
+                continue
+            for truck in [truck for truck in truck_not_rework if truck.get_type() in typeOfTruckToUse(self.__dict_type[key][0].get_type())]:
+                for box in self.__dict_type[key]:
                     self.__remove_incompatible_boxes(truck, box.get_type(),types_remaining)
                     if truck.can_contain(box):
                         truck.add_fret(box)
                         self.__dict_type[key].remove(box)
+                        truck_not_rework.remove(truck)
                         break
 
         if len(self.__dict_type) != 0:
