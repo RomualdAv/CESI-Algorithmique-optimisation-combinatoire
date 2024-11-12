@@ -1,6 +1,6 @@
 ﻿import uuid
-
-from src import CsvManager, Truck, Size, TypeTruck, Depot, Box, TypeBox
+from src.infrastructure import CsvManager
+from src.utils import Truck, Size, TypeTruck, Depot, Box, TypeBox
 
 
 class InstanceLoader:
