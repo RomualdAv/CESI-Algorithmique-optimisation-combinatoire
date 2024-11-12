@@ -86,90 +86,60 @@ class SortationAlgorithm:
 
     def getTruckLoaded(self) -> list[Truck]:
         """
-        Return the list of trucks loaded.
+        Load trucks with boxes according to the specified algorithm.
 
-        :raises InstanceError: If the problem is not solvable.
+        :return: List of loaded trucks.
         """
+        # Step 1: Initialize lists
+        loaded_trucks = []
+        remaining_boxes = self.__boxes.copy()
 
-        # Check if the problem is solvable
-        is_solvable(self.__trucks, self.__boxes, self.__graph)
-        # Sort the boxes by type
-        self.__sortByType()
-        # Check if the boxes can be delivered by the trucks
-        self.__checkContainability()
+        # Step 2: Sort trucks by capacity and types compatible (ascending order of priority)
+        self.__trucks.sort(key=lambda truck: (truck.get_size().getVolume(), getTruckCoupling(truck.get_type())))
 
-        # Check if the problem is solved
-        if self.__trucks[0].get_current_weight() != 0:
-            return self.__trucks
+        # Step 3: Sort boxes by type and loading priorities (descending order of coupling)
+        boxes_by_type = self.__sortByType()
 
-        types_keys = list(self.__dict_type.keys())
+        for type_name in boxes_by_type:
+            boxes_by_type[type_name].sort(key=lambda box: getBoxCoupling(box.get_type()), reverse=True)
 
-        # Sort the type boxes by decreasing coupling
-        types_keys.sort(key=lambda key: getBoxCoupling(self.__dict_type[key][0].get_type()), reverse=True)
-        # Sort the truck by crescent coupling
-        self.__trucks.sort(key=lambda truck: getTruckCoupling(truck.get_type()))
-
-        #Load truck
+        # Step 4: Load trucks
         for truck in self.__trucks:
-            for key in types_keys[:]:
-                boxes = self.__dict_type[key]
-                for box in boxes:
-                    if truck.get_type() in typeOfTruckToUse(box.get_type()):
+            boites_chargees = []
+
+            for type_name, boxes_of_type in list(boxes_by_type.items()):
+                if truck.get_type() in typeOfTruckToUse(boxes_of_type[0].get_type()):
+                    for box in boxes_of_type[:]:
                         if truck.can_contain(box):
                             truck.add_fret(box)
-                            boxes.remove(box)
-                            __find_same_depot__(truck, boxes, box)
-                    if len(boxes) == 0:
-                        types_keys.remove(key)
-                        break
-                if truck.is_full():
-                    break
-
-        self.__reorganize_trucks(types_keys)
-
-        return self.__trucks
-
-    def __remove_incompatible_boxes(self, truck: Truck, box_type: TypeBox, types_remaining: list[str]):
-        """
-        Remove incompatible boxes from the truck to make space for a box of the given type.
-
-        :param truck: The truck from which to remove incompatible boxes.
-        :param box_type: The type of the box that needs to be loaded.
-        :param types_remaining: The types of boxes that couldn't be loaded initially.
-        """
-        incompatible_boxes = [box for box in truck.get_fret() if not is_compatible(box.get_type(), box_type)]
-        for box in incompatible_boxes:
-            truck.convey_box(box.get_id_box())
-            type_name = box.get_type().name
-
-            if type_name not in self.__dict_type:
-                self.__dict_type[type_name] = []
-                types_remaining.append(type_name)
-                types_remaining.sort(key=lambda key: getBoxCoupling(self.__dict_type[key][0].get_type()), reverse=True)
-
-            self.__dict_type[type_name].append(box)
-
-    def __reorganize_trucks(self, types_remaining: list[str]):
-        """
-        Reorganize the trucks to load the boxes that couldn't be loaded initially.
-
-        :param types_remaining: The types of boxes that couldn't be loaded initially.
-        """
-        truck_not_rework = self.__trucks.copy()
-        for key in types_remaining:
-            if len(self.__dict_type[key]) == 0:
-                del self.__dict_type[key]
-                continue
-            for truck in [truck for truck in truck_not_rework if truck.get_type() in typeOfTruckToUse(self.__dict_type[key][0].get_type())]:
-                for box in self.__dict_type[key]:
-                    self.__remove_incompatible_boxes(truck, box.get_type(),types_remaining)
-                    if truck.can_contain(box):
-                        truck.add_fret(box)
-                        self.__dict_type[key].remove(box)
-                        truck_not_rework.remove(truck)
+                            boxes_of_type.remove(box)
+                            boites_chargees.append(box)
+                        if not boxes_of_type:
+                            del boxes_by_type[type_name]
+                            break
+                    if truck.is_full():
                         break
 
-        if len(self.__dict_type) != 0:
-            raise InstanceError("The boxes can't be delivered by the trucks because the boxes can't be loaded in the trucks")
+            loaded_trucks.append(truck)
 
-        return self.__trucks
+        # Step 5: Reorganize if necessary
+        for truck in loaded_trucks:
+            for type_name, boxes_of_type in list(boxes_by_type.items()):
+                if truck.get_type() in typeOfTruckToUse(boxes_of_type[0].get_type()):
+                    for box in boxes_of_type[:]:
+                        if truck.can_contain(box):
+                            truck.add_fret(box)
+                            boxes_of_type.remove(box)
+                        if not boxes_of_type:
+                            del boxes_by_type[type_name]
+                            break
+
+        # Step 6: Check for remaining boxes
+        remaining_boxes = [box for boxes_of_type in boxes_by_type.values() for box in boxes_of_type]
+
+        # Step 7: Raise error if boxes remain
+        if remaining_boxes:
+            raise InstanceError("Some boxes couldn't be loaded due to constraints.")
+
+        # Step 8: Return loaded trucks and remaining boxes
+        return loaded_trucks

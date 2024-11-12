@@ -61,5 +61,31 @@ class SortationAlgorithmTests(unittest.TestCase):
         self.assertTrue(all(truck.get_current_weight() > 0 for truck in loaded_trucks))
         self.assertEqual(sum(len(truck.get_fret()) for truck in loaded_trucks),7)
 
+    def test_get_truck_loaded_for_big_fret(self):
+        depot1 = Depot(0, "Depot 0")
+        depot2 = Depot(1, "Depot 1")
+        depot3 = Depot(2, "Depot 2")
+        depot4 = Depot(4, "Depot 4")
+        box1 = Box(uuid.uuid4(), depot1, Size(1, 1, 1), TypeBox.ALIMENTAL)
+        box2 = Box(uuid.uuid4(), depot2, Size(2, 2, 2), TypeBox.NOTSPECIFY)
+        box3 = Box(uuid.uuid4(), depot1, Size(1.5, 1.5, 1.5), TypeBox.FRAGILE)
+        box4 = Box(uuid.uuid4(), depot1, Size(1, 1.5, 0.5), TypeBox.ALIMENTAL)
+        box5 = Box(uuid.uuid4(), depot3, Size(0.6, 1, 0.6), TypeBox.CORROSIVE)
+        box6 = Box(uuid.uuid4(), depot3, Size(0.6, 1, 0.6), TypeBox.CORROSIVE)
+        box7 = Box(uuid.uuid4(), depot3, Size(0.6, 1, 0.6), TypeBox.CORROSIVE)
+        box8 = Box(uuid.uuid4(), depot4, Size(2, 0.5, 0.6), TypeBox.RADIOACTIVE)
+        box9 = Box(uuid.uuid4(), depot4, Size(2, 0.5, 0.6), TypeBox.RADIOACTIVE)
+        box10 = Box(uuid.uuid4(), depot4, Size(1, 1, 1), TypeBox.TOXIC)
+        truck1 = Truck("Truck1", Size(3, 3, 6), TypeTruck.REFRIGERATE)
+        truck2 = Truck("Truck2", Size(3, 3, 8), TypeTruck.WATERTIGHT)
+        truck3 = Truck("Truck3", Size(2, 2, 5), TypeTruck.PLATED)
+
+        algorithm = SortationAlgorithm([box1, box2, box3, box4,box5,box6,box7,box8,box9,box10], [truck1, truck2,truck3], self.graph)
+
+        loaded_trucks = algorithm.getTruckLoaded()
+        self.assertGreater(len(loaded_trucks), 0)
+        self.assertTrue(all(truck.get_current_weight() > 0 for truck in loaded_trucks))
+        self.assertEqual(sum(len(truck.get_fret()) for truck in loaded_trucks),10)
+
 if __name__ == '__main__':
     unittest.main()
