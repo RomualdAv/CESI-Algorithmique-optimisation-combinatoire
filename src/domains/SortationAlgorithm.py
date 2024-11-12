@@ -84,6 +84,30 @@ class SortationAlgorithm:
 
         return True
 
+    def __remove_incompatible_boxes(self, truck: Truck, box_type: TypeBox, boxes_of_type: dict[str,list[Box]]) -> bool:
+        """
+        Remove incompatible boxes from the truck to make space for a box of the given type.
+
+        :param truck: The truck from which to remove incompatible boxes.
+        :param box_type: The type of the box that needs to be loaded.
+        :param boxes_of_type: The list of boxes of the given type.
+
+        :return: True if the truck has been modified, False otherwise.
+        """
+        incompatible_boxes = [box for box in truck.get_fret() if not is_compatible(box.get_type(), box_type)]
+        for box in incompatible_boxes:
+            truck.convey_box(box.get_id_box())
+            type_name = box.get_type().name
+
+            if type_name not in boxes_of_type:
+                boxes_of_type[type_name] = []
+                boxes_of_type[type_name].append(box)
+                boxes_of_type[type_name].sort(key=lambda box: getBoxCoupling(box.get_type()), reverse=True)
+            else:
+                boxes_of_type[type_name].append(box)
+
+        return len(incompatible_boxes)>0
+
     def getTruckLoaded(self) -> list[Truck]:
         """
         Load trucks with boxes according to the specified algorithm.
@@ -105,7 +129,6 @@ class SortationAlgorithm:
 
         # Step 4: Load trucks
         for truck in self.__trucks:
-            boites_chargees = []
 
             for type_name, boxes_of_type in list(boxes_by_type.items()):
                 if truck.get_type() in typeOfTruckToUse(boxes_of_type[0].get_type()):
@@ -113,7 +136,6 @@ class SortationAlgorithm:
                         if truck.can_contain(box):
                             truck.add_fret(box)
                             boxes_of_type.remove(box)
-                            boites_chargees.append(box)
                         if not boxes_of_type:
                             del boxes_by_type[type_name]
                             break
@@ -124,15 +146,18 @@ class SortationAlgorithm:
 
         # Step 5: Reorganize if necessary
         limit = len(self.__boxes)
-        while remaining_boxes or limit:
+        truck_used = []
+        while remaining_boxes and limit:
             for truck in loaded_trucks:
-                for type_name, boxes_of_type in list(boxes_by_type.items()):
-                    if truck.get_type() in typeOfTruckToUse(boxes_of_type[0].get_type()):
-                        for box in boxes_of_type[:]:
+                for type_name, boxes in list(boxes_by_type.items()):
+                    if truck.get_type() in typeOfTruckToUse(boxes[0].get_type()):
+                        for box in boxes[:]:
+                            if truck not in truck_used and self.__remove_incompatible_boxes(truck, box.get_type(), boxes_by_type):
+                                truck_used.append(truck)
                             if truck.can_contain(box):
                                 truck.add_fret(box)
-                                boxes_of_type.remove(box)
-                            if not boxes_of_type:
+                                boxes.remove(box)
+                            if not boxes:
                                 del boxes_by_type[type_name]
                                 break
 
