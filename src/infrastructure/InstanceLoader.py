@@ -8,7 +8,7 @@ class InstanceLoader:
     Class that loads an instance from a directory in a file with the instance_id as a suffix in the filename and provides methods to access the data
     """
     def __init__(self, directory: str, instance_id: str):
-        if directory is None or instance_id is None or directory is not str or instance_id is not str:
+        if not isinstance(directory,str) or not isinstance(instance_id,str):
             raise ValueError("directory and instance_id must be strings")
         self.directory = directory
         self.instance_id = instance_id
