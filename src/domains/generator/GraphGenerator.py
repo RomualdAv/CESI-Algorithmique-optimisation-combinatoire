@@ -15,6 +15,10 @@ def generateGraph(nb_nodes: int, nb_edges: int, symmetric: bool) -> list[list[fl
     """
     # Create a graph with nb_nodes nodes and no edges
     graph = [[float('inf')] * nb_nodes for _ in range(nb_nodes)]
+
+    for idx in range(nb_nodes):
+        graph[idx][idx] = 0
+
     # Create the list of this edges
     list_edges = []
     start = 1
