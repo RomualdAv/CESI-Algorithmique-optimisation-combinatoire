@@ -1,5 +1,5 @@
 ﻿import unittest
-from src.domains.random.TruckGenerator import generate_truck, generate_box
+from src.domains.generator.TruckGenerator import generate_truck, generate_box
 from src import Truck, Size, TypeTruck, TypeBox
 
 
@@ -42,9 +42,9 @@ class TestTruckGenerator(unittest.TestCase):
 
         self.assertGreater(len(truck.get_fret()), 0)
         self.assertLessEqual(len(truck.get_fret()), 25)
-        self.assertLessEqual(truck.getCurrentWeight(), truck.get_size().getVolume())
+        self.assertLessEqual(truck.get_current_weight(), truck.get_size().getVolume())
         for box in truck.get_fret():
-            self.assertNotEqual(box.getDestination().getLocation(), start_node)
+            self.assertNotEqual(box.get_destination().get_location(), start_node)
 
 
 if __name__ == '__main__':

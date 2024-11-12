@@ -1,5 +1,5 @@
 ﻿import unittest
-from src.domains.random.GraphGenerator import *
+from src.domains.generator.GraphGenerator import *
 
 
 class GraphGeneratorCase(unittest.TestCase):
@@ -16,9 +16,9 @@ class GraphGeneratorCase(unittest.TestCase):
 
         # Compte le nombre d'arêtes
         edge_count = sum(1 for i in range(nb_nodes) for j in range(nb_nodes) if symmetric_graph[i][j] != float('inf'))
-        self.assertEqual(edge_count, nb_edges)
+        self.assertEqual(edge_count-nb_nodes, nb_edges)
         edge_count = sum(1 for i in range(nb_nodes) for j in range(nb_nodes) if asymmetric_graph[i][j] != float('inf'))
-        self.assertEqual(edge_count, nb_edges)
+        self.assertEqual(edge_count-nb_nodes, nb_edges)
 
     def test_should_generate_graph_with_symmetric_weight(self):
         nb_nodes = 20

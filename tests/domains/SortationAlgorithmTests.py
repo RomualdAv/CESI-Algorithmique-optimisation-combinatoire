@@ -1,89 +1,91 @@
 ﻿import unittest
-import time
-
-from src.utils import *
 from src.domains.SortationAlgorithm import *
-from src.domains.InstanceGenerator import generateGraph
+from src.utils.Box import *
+from src.utils.Truck import *
 
-class TestInstanceGenerator(unittest.TestCase):
+class SortationAlgorithmTests(unittest.TestCase):
 
-    def test_should_the_random_graph_generation(self):
-        truck = Truck("truck1", Size(10,10,10), TypeTruck.PLATED)
+    def setUp(self):
+        # Create some mock boxes and trucks for testing
+        depot1 = Depot(0, "Depot 0")
+        depot2 = Depot(1, "Depot 1")
+        depot3 = Depot(2, "Depot 2")
+        self.box1 = Box(uuid.uuid4(), depot1, Size(1,1,1), TypeBox.ALIMENTAL)
+        self.box2 = Box(uuid.uuid4(), depot2, Size(2,2,2), TypeBox.NOTSPECIFY)
+        self.box3 = Box(uuid.uuid4(), depot1, Size(1.5,1.5,1.5), TypeBox.FRAGILE)
+        self.box4 = Box(uuid.uuid4(), depot1, Size(1, 1.5, 0.5), TypeBox.ALIMENTAL)
+        self.box5 = Box(uuid.uuid4(), depot3, Size(0.6, 1, 0.6), TypeBox.CORROSIVE)
+        self.box6 = Box(uuid.uuid4(), depot3, Size(0.6, 1, 0.6), TypeBox.CORROSIVE)
+        self.box7 = Box(uuid.uuid4(), depot3, Size(0.6, 1, 0.6), TypeBox.CORROSIVE)
+        self.truck1 = Truck("Truck1", Size(3,3,6), TypeTruck.REFRIGERATE)
+        self.truck2 = Truck("Truck2", Size(2,2,4), TypeTruck.OPEN)
+        self.truck3 = Truck("Truck3", Size(1, 1, 1), TypeTruck.PLATED)
+        self.truck4 = Truck("Truck4", Size(3, 3, 8), TypeTruck.WATERTIGHT)
+        self.graph = [[0, 1, 1],
+                      [1, 0, 0],
+                      [1, 0, 0]]
 
-        dw1 = DeliveryWindow(datetime.datetime(2023,11,12,8,0), datetime.datetime(2023,11,12,9,0))
-        dw2 = DeliveryWindow(datetime.datetime(2023, 11, 12, 9, 0), datetime.datetime(2023, 11, 12, 11, 0))
-        dw3 = DeliveryWindow(datetime.datetime(2023, 11, 12, 12, 0), datetime.datetime(2023, 11, 12, 14, 0))
-        dw4 = DeliveryWindow(datetime.datetime(2023, 11, 12, 14, 0), datetime.datetime(2023, 11, 12, 18, 0))
-        dw5 = DeliveryWindow(datetime.datetime(2023, 11, 12, 8, 0), datetime.datetime(2023, 11, 12, 17, 30))
+    def test_sort_by_type(self):
+        algorithm = SortationAlgorithm([self.box1, self.box2, self.box3, self.box4,self.box5,self.box6,self.box7], [self.truck1, self.truck2], self.graph)
+        sorted_boxes = algorithm._SortationAlgorithm__sortByType()
+        # Check if the boxes are sorted by type
+        self.assertGreater(len(sorted_boxes), 0)
+        self.assertIn("ALIMENTAL", sorted_boxes)
+        self.assertIn("NOTSPECIFY", sorted_boxes)
+        self.assertIn("FRAGILE", sorted_boxes)
+        self.assertIn("CORROSIVE", sorted_boxes)
 
-        depot1 = Depot(1,"depot1", True,dw1)
-        depot2 = Depot(2, "depot1", True, dw2)
-        depot3 = Depot(3, "depot1", True, dw3)
-        depot4 = Depot(4, "depot1", True, dw4)
-        depot5 = Depot(5, "depot1", True, dw5)
+        self.assertEqual(len(sorted_boxes["ALIMENTAL"]), 2)
+        self.assertEqual(len(sorted_boxes["NOTSPECIFY"]), 1)
+        self.assertEqual(len(sorted_boxes["FRAGILE"]), 1)
+        self.assertEqual(len(sorted_boxes["CORROSIVE"]), 3)
 
-        box1 = Box(uuid.uuid4(), depot1,Size(2,2,2),TypeBox.TOXIC)
-        box2 = Box(uuid.uuid4(), depot2, Size(2, 2, 2), TypeBox.TOXIC)
-        box3 = Box(uuid.uuid4(), depot3, Size(2, 2, 2), TypeBox.TOXIC)
-        box4 = Box(uuid.uuid4(), depot4, Size(2, 2, 2), TypeBox.TOXIC)
-        box5 = Box(uuid.uuid4(), depot5, Size(2, 2, 2), TypeBox.TOXIC)
+    def test_check_containability(self):
+        instance1 = SortationAlgorithm([self.box1, self.box2, self.box3], [self.truck1, self.truck2], self.graph)
+        instance2 = SortationAlgorithm([self.box2, self.box3], [self.truck2], self.graph)
 
-        truck.addFret(box1)
-        truck.addFret(box2)
-        truck.addFret(box3)
-        truck.addFret(box4)
-        truck.addFret(box5)
+        self.assertTrue(instance1._SortationAlgorithm__checkContainability())
+        self.assertTrue(instance2._SortationAlgorithm__checkContainability())
 
-        liste_gen = boxDeliveryWindowSorting(truck)
+    def test_check_containability_failure(self):
+        algorithm = SortationAlgorithm([self.box1, self.box6], [self.truck1], self.graph)
 
-        liste = [box1, box2, box3, box5, box4]
+        with self.assertRaises(InstanceError):
+            algorithm._SortationAlgorithm__checkContainability()
 
-        self.assertEqual(liste, liste_gen)
+    def test_get_truck_loaded(self):
+        algorithm = SortationAlgorithm([self.box1, self.box2, self.box3, self.box4,self.box5,self.box6,self.box7], [self.truck1, self.truck4], self.graph)
 
-    def test_should_generate_matrix_Floyd_Warshall_for_not_oriented_graph(self):
-        graph = [
-            [0, 2, 5],
-            [2, 0, float('INF')],
-            [5, float('INF'), 0],
-        ]
+        loaded_trucks = algorithm.getTruckLoaded()
+        self.assertGreater(len(loaded_trucks), 0)
+        self.assertTrue(all(truck.get_current_weight() > 0 for truck in loaded_trucks))
+        self.assertEqual(sum(len(truck.get_fret()) for truck in loaded_trucks),7)
 
-        matrix = createMatrixItinerary(graph)
+    def test_get_truck_loaded_for_big_fret(self):
+        depot1 = Depot(0, "Depot 0")
+        depot2 = Depot(1, "Depot 1")
+        depot3 = Depot(2, "Depot 2")
+        depot4 = Depot(4, "Depot 4")
+        box1 = Box(uuid.uuid4(), depot1, Size(1, 1, 1), TypeBox.ALIMENTAL)
+        box2 = Box(uuid.uuid4(), depot2, Size(2, 2, 2), TypeBox.NOTSPECIFY)
+        box3 = Box(uuid.uuid4(), depot1, Size(1.5, 1.5, 1.5), TypeBox.FRAGILE)
+        box4 = Box(uuid.uuid4(), depot1, Size(1, 1.5, 0.5), TypeBox.ALIMENTAL)
+        box5 = Box(uuid.uuid4(), depot3, Size(0.6, 1, 0.6), TypeBox.CORROSIVE)
+        box6 = Box(uuid.uuid4(), depot3, Size(0.6, 1, 0.6), TypeBox.CORROSIVE)
+        box7 = Box(uuid.uuid4(), depot3, Size(0.6, 1, 0.6), TypeBox.CORROSIVE)
+        box8 = Box(uuid.uuid4(), depot4, Size(2, 0.5, 0.6), TypeBox.RADIOACTIVE)
+        box9 = Box(uuid.uuid4(), depot4, Size(2, 0.5, 0.6), TypeBox.RADIOACTIVE)
+        box10 = Box(uuid.uuid4(), depot4, Size(1, 1, 1), TypeBox.TOXIC)
+        truck1 = Truck("Truck1", Size(3, 3, 6), TypeTruck.REFRIGERATE)
+        truck2 = Truck("Truck2", Size(3, 3, 8), TypeTruck.WATERTIGHT)
+        truck3 = Truck("Truck3", Size(2, 2, 5), TypeTruck.PLATED)
 
-        matrix_manual = [
-            [Itinerary(0,0,[],0), Itinerary(0,1,[],2), Itinerary(0,2,[],5)],
-            [Itinerary(1,0,[],2), Itinerary(1,1,[],0), Itinerary(1,2,[0],7)],
-            [Itinerary(2,0,[],5), Itinerary(2,1,[0],7), Itinerary(2,2,[],0)],
-        ]
+        algorithm = SortationAlgorithm([box1, box2, box3, box4,box5,box6,box7,box8,box9,box10], [truck1, truck2,truck3], self.graph)
 
-        self.assertEqual(matrix, matrix_manual)
+        loaded_trucks = algorithm.getTruckLoaded()
+        self.assertGreater(len(loaded_trucks), 0)
+        self.assertTrue(all(truck.get_current_weight() > 0 for truck in loaded_trucks))
+        self.assertEqual(sum(len(truck.get_fret()) for truck in loaded_trucks),10)
 
-    def test_should_generate_matrix_Floyd_Warshall_for_oriented_graph(self):
-        graph = [
-            [0, 2, 5,8,float('INF')],
-            [2, 0, float('INF'),8,5],
-            [5, float('INF'), 0,6,3],
-            [8, 2, 5, 0, 3],
-            [3, 2, float('INF'), 7, 0],
-        ]
-
-        matrix = createMatrixItinerary(graph)
-
-        for i in matrix:
-            for j in i:
-                self.assertNotEqual(j.getTravelTime(), float('INF'))
-
-    def test_should_generate_matrix_Floyd_Warshall_for_oriented_graph_with_negative_cycle(self):
-        graph = generateGraph(1000, 850000, False)
-        print("Start test performance")
-        start = time.time()
-
-        matrix = createMatrixItinerary(graph)
-
-        end = time.time()
-        print("End test performance")
-        print("Time to generate matrix for 1000 nodes and 700 edges: ", end-start)
-        for i in matrix:
-            for j in i:
-                self.assertNotEqual(j.getTravelTime(), float('INF'))
 if __name__ == '__main__':
     unittest.main()

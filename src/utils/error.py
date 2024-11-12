@@ -1,7 +1,4 @@
-﻿class TruckError(Exception):
-    pass
-
-class BoxIDError(Exception):
+﻿class BoxIDError(Exception):
     pass
 
 class CsvError(Exception):
