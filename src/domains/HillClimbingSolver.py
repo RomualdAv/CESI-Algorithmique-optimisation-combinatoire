@@ -21,7 +21,6 @@ def generer_voisin(chemin, noeuds, choix):
         position = randint(1, len(voisin) - 2)
         if voisin[position] not in choix:  # ensure we don't remove mandatory nodes
             voisin.pop(position)
-    
     return voisin
 
 def recherche_hill_climbing(distance_matrix, choix, point_depart, max_iterations=90000, tabou_taille=50):
