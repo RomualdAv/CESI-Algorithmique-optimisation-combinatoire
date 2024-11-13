@@ -26,30 +26,25 @@ class InstanceLoader:
         trucks = []
         try:
             # Read all lines from the CSV file
-            ligne_index = 0
+            ligne_index = 1
             while True:
                 # Reading a line at the current index
                 ligne = self.trucks_file.readLine(ligne_index)
-                if ligne_index == 0:
-                    # Ignore the header
-                    ligne_index += 1
-                    continue
-                else:
-                    size = Size(ligne[1],float(ligne[2]),float(ligne[3]))
-                    name = ligne[0]
-                    match ligne[4]:
-                        case "OPEN":
-                            type_truck = TypeTruck.OPEN
-                        case "REFRIGERATE":
-                            type_truck = TypeTruck.REFRIGERATE
-                        case "WATERTIGHT":
-                            type_truck = TypeTruck.WATERTIGHT
-                        case "PLATED":
-                            type_truck = TypeTruck.PLATED
-                        case _:
-                            raise ValueError("Type de camion inconnu")
-                    truck = Truck(name,size,type_truck)
-                    trucks.append(truck)
+                size = Size(float(ligne[1]),float(ligne[2]),float(ligne[3]))
+                name = ligne[0]
+                match ligne[4]:
+                    case "OPEN":
+                        type_truck = TypeTruck.OPEN
+                    case "REFRIGERATE":
+                        type_truck = TypeTruck.REFRIGERATE
+                    case "WATERTIGHT":
+                        type_truck = TypeTruck.WATERTIGHT
+                    case "PLATED":
+                        type_truck = TypeTruck.PLATED
+                    case _:
+                        raise ValueError("Type de camion inconnu")
+                truck = Truck(name,size,type_truck)
+                trucks.append(truck)
                 ligne_index += 1
         except CsvError:
             # When the end of the file is reached, the CsvError exception is raised
@@ -65,43 +60,38 @@ class InstanceLoader:
         boxes = []
         try:
             # Read all lines from the CSV file
-            ligne_index = 0
+            ligne_index = 1
             while True:
                 # Reading a line at the current index
                 ligne = self.boxes_file.readLine(ligne_index)
-                if ligne_index == 0:
-                    # Ignore the header
-                    ligne_index += 1
-                    continue
-                else:
-                    size = Size(ligne[3],float(ligne[4]),float(ligne[5]))
-                    id_box = uuid.UUID(ligne[0])
-                    depot = Depot(ligne[1],ligne[2])
-                    match ligne[6]:
-                        case "NOTSPECIFY":
-                            type_box = TypeBox.NOTSPECIFY
-                        case "ALIMENTAL":
-                            type_box = TypeBox.ALIMENTAL
-                        case "FLAMMABLE":
-                            type_box = TypeBox.FLAMMABLE
-                        case "EXPLOSIVE":
-                            type_box = TypeBox.EXPLOSIVE
-                        case "TOXIC":
-                            type_box = TypeBox.TOXIC
-                        case "RADIOACTIVE":
-                            type_box = TypeBox.RADIOACTIVE
-                        case "CORROSIVE":
-                            type_box = TypeBox.CORROSIVE
-                        case "OXIDIZING":
-                            type_box = TypeBox.OXIDIZING
-                        case "PRESSURIZED":
-                            type_box = TypeBox.PRESSURIZED
-                        case "FRAGILE":
-                            type_box = TypeBox.FRAGILE
-                        case _:
-                            raise ValueError("Type de marchandise inconnu")
-                    box = Box(id_box,depot,size,type_box)
-                    boxes.append(box)
+                size = Size(float(ligne[3]),float(ligne[4]),float(ligne[5]))
+                id_box = uuid.UUID(ligne[0])
+                depot = Depot(int(ligne[1]),ligne[2])
+                match ligne[6]:
+                    case "NOTSPECIFY":
+                        type_box = TypeBox.NOTSPECIFY
+                    case "ALIMENTAL":
+                        type_box = TypeBox.ALIMENTAL
+                    case "FLAMMABLE":
+                        type_box = TypeBox.FLAMMABLE
+                    case "EXPLOSIVE":
+                        type_box = TypeBox.EXPLOSIVE
+                    case "TOXIC":
+                        type_box = TypeBox.TOXIC
+                    case "RADIOACTIVE":
+                        type_box = TypeBox.RADIOACTIVE
+                    case "CORROSIVE":
+                        type_box = TypeBox.CORROSIVE
+                    case "OXIDIZING":
+                        type_box = TypeBox.OXIDIZING
+                    case "PRESSURIZED":
+                        type_box = TypeBox.PRESSURIZED
+                    case "FRAGILE":
+                        type_box = TypeBox.FRAGILE
+                    case _:
+                        raise ValueError("Type de marchandise inconnu")
+                box = Box(id_box,depot,size,type_box)
+                boxes.append(box)
                 ligne_index += 1
         except CsvError:
             # When the end of the file is reached, the CsvError exception is raised
@@ -120,7 +110,7 @@ class InstanceLoader:
             ligne_index = 0
             while True:
                 # Reading a line at the current index
-                ligne = self.trucks_file.readLine(ligne_index)
+                ligne = self.graph_file.readLine(ligne_index)
                 ligne_float = [float(i) for i in ligne]
                 graph.append(ligne_float)
                 ligne_index += 1
