@@ -1,7 +1,7 @@
 ﻿import unittest
 import os
 from src.infrastructure.CSVManager import CsvManager
-from src.utils.error import CsvError
+from src.infrastructure.error import CsvError
 
 
 def get_directory():
