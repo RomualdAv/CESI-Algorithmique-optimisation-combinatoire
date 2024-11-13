@@ -5,5 +5,4 @@ from .Depot import *
 from .Size import *
 from .Truck import *
 from .error import *
-from .Itinerary import *
 from .Types import *
