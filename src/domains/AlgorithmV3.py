@@ -15,7 +15,7 @@ def floyd_warshall(matrice):
 def shortest_path_floyd(dist, start, end):
     return dist[start][end]
 
-def itineraire_glouton(matrice, start, mandatory):
+def itineraire(matrice, start, mandatory):
     n = len(matrice)
     
     # Étape 1 : Calculer les distances les plus courtes entre toutes les paires de nœuds
